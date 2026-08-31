@@ -77,13 +77,12 @@
       <a href="services.html" class="btn btn-primary">See services</a>
     </div>
   </section>
-
   <section id="request" class="section-warm">
     <div class="wrap">
       <div class="section-head">
         <span class="eyebrow" style="color:var(--accent-flame);">Get started</span>
         <h2>Submit a request</h2>
-        <p>The more detail you give me here, the faster and more accurate your quote will be. When you hit submit, your answers open in a text pre-addressed to me — just hit send.</p>
+        <p>The more detail you give me here, the faster and more accurate your quote will be. When you hit submit, your answers open in an email pre-addressed to me — just hit send.</p>
       </div>
 
       <form id="requestForm">
@@ -193,12 +192,11 @@
 
         <div class="form-submit">
           <button type="submit" class="btn btn-primary">Submit request</button>
-          <span class="form-note">This opens a text message to me with everything filled in — nothing sends automatically.</span>
+          <span class="form-note">This opens an email to me with everything filled in — nothing sends automatically.</span>
         </div>
       </form>
     </div>
   </section>
-
   <section id="cta-strip" class="section-tint">
     <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
       <div>
@@ -266,10 +264,10 @@
         ];
 
         var body = lines.join('\n');
-        var phone = '4173533406';
-        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        var separator = isIOS ? '&' : '?';
-        window.location.href = 'sms:' + phone + separator + 'body=' + encodeURIComponent(body);
+        var subject = 'New project request from ' + (f.reqName.value.trim() || 'website visitor');
+        window.location.href = 'mailto:mccartybraden3@gmail.com' +
+          '?subject=' + encodeURIComponent(subject) +
+          '&body=' + encodeURIComponent(body);
       });
     }
   })();
