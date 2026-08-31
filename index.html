@@ -19,7 +19,7 @@
     </a>
     <ul class="nav-links">
       <li><a href="services.html">Services</a></li>
-      <li><a href="index.html#process">Process</a></li>
+      <li><a href="index.html#request">Request</a></li>
       <li><a href="work.html">Work</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
@@ -44,7 +44,7 @@
   </div>
   <ul class="mobile-menu-links">
     <li><a href="services.html">Services</a></li>
-    <li><a href="index.html#process">Process</a></li>
+    <li><a href="index.html#request">Request</a></li>
     <li><a href="work.html">Work</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
@@ -62,7 +62,7 @@
       <p class="hero-sub">I design and build custom websites for small businesses, creators, and anyone tired of templates that look like everyone else's. One designer, one direct line — no account managers, no bloat, no mystery about what's happening with your site.</p>
       <div class="hero-ctas">
         <a href="contact.html" class="btn btn-primary">Tell me about your project</a>
-        <a href="#process" class="btn btn-ghost-light">See how it works</a>
+        <a href="#request" class="btn btn-ghost-light">Submit a request</a>
       </div>
     </div>
   </section>
@@ -78,44 +78,124 @@
     </div>
   </section>
 
-  <section id="process" class="section-warm">
+  <section id="request" class="section-warm">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow" style="color:var(--accent-flame);">How it works</span>
-        <h2>Four steps, no surprises</h2>
-        <p>You'll always know what stage you're at and what happens next.</p>
+        <span class="eyebrow" style="color:var(--accent-flame);">Get started</span>
+        <h2>Submit a request</h2>
+        <p>The more detail you give me here, the faster and more accurate your quote will be. When you hit submit, your answers open in a text pre-addressed to me — just hit send.</p>
       </div>
 
-      <div class="process-list">
-        <div class="process-step">
-          <span class="process-num">01</span>
+      <form id="requestForm">
+        <div class="form-row">
           <div>
-            <h3>Discover</h3>
-            <p>A quick call or message thread about your goals, your audience, and what "done" actually looks like for this project.</p>
+            <label for="reqName">Full name</label>
+            <input type="text" id="reqName" name="reqName" required autocomplete="name">
+          </div>
+          <div>
+            <label for="reqEmail">Email</label>
+            <input type="email" id="reqEmail" name="reqEmail" required autocomplete="email">
           </div>
         </div>
-        <div class="process-step">
-          <span class="process-num">02</span>
+
+        <div class="form-row">
           <div>
-            <h3>Design</h3>
-            <p>A real, browsable design concept — not a mood board — before a single line of code gets written. Revisions until it's right.</p>
+            <label for="reqPhone">Phone (for a callback, optional)</label>
+            <input type="tel" id="reqPhone" name="reqPhone" autocomplete="tel">
+          </div>
+          <div>
+            <label for="reqBusiness">Business / project name</label>
+            <input type="text" id="reqBusiness" name="reqBusiness">
           </div>
         </div>
-        <div class="process-step">
-          <span class="process-num">03</span>
+
+        <div class="form-row">
           <div>
-            <h3>Build</h3>
-            <p>The approved design gets built for real: responsive, fast, and set up so you can update text and images yourself afterward.</p>
+            <label for="reqType">Project type</label>
+            <select id="reqType" name="reqType">
+              <option>Landing page</option>
+              <option>Business site</option>
+              <option>Custom build</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div>
+            <label for="reqBudget">Budget range</label>
+            <select id="reqBudget" name="reqBudget">
+              <option>Under $500</option>
+              <option>$500 – $1,500</option>
+              <option>$1,500 – $3,000</option>
+              <option>$3,000+</option>
+              <option>Let's talk about it</option>
+            </select>
           </div>
         </div>
-        <div class="process-step">
-          <span class="process-num">04</span>
+
+        <div class="form-row">
           <div>
-            <h3>Launch</h3>
-            <p>Your site goes live on your domain, plus a short walkthrough so you're never locked out of your own website.</p>
+            <label for="reqExisting">Existing website (URL, or "none")</label>
+            <input type="text" id="reqExisting" name="reqExisting" placeholder="e.g. yourbusiness.com or none">
+          </div>
+          <div>
+            <label for="reqPages">Roughly how many pages?</label>
+            <input type="text" id="reqPages" name="reqPages" placeholder="e.g. 1, 5, not sure">
           </div>
         </div>
-      </div>
+
+        <div class="form-row">
+          <div>
+            <label for="reqTimeline">Target launch date</label>
+            <input type="text" id="reqTimeline" name="reqTimeline" placeholder="e.g. ASAP, in 2 months, flexible">
+          </div>
+          <div>
+            <label for="reqContent">Is your content (copy/photos) ready?</label>
+            <select id="reqContent" name="reqContent">
+              <option>Yes, fully ready</option>
+              <option>Partially ready</option>
+              <option>No, I'll need help</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label>Features you need (check all that apply)</label>
+          <div style="display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:6px;">
+            <label style="text-transform:none;font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:7px;color:var(--ink);"><input type="checkbox" name="reqFeatures" value="Contact form" style="width:auto;">Contact form</label>
+            <label style="text-transform:none;font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:7px;color:var(--ink);"><input type="checkbox" name="reqFeatures" value="Online store" style="width:auto;">Online store</label>
+            <label style="text-transform:none;font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:7px;color:var(--ink);"><input type="checkbox" name="reqFeatures" value="Booking / scheduling" style="width:auto;">Booking / scheduling</label>
+            <label style="text-transform:none;font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:7px;color:var(--ink);"><input type="checkbox" name="reqFeatures" value="Blog" style="width:auto;">Blog</label>
+            <label style="text-transform:none;font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:7px;color:var(--ink);"><input type="checkbox" name="reqFeatures" value="Photo gallery" style="width:auto;">Photo gallery</label>
+            <label style="text-transform:none;font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:7px;color:var(--ink);"><input type="checkbox" name="reqFeatures" value="Client login area" style="width:auto;">Client login area</label>
+            <label style="text-transform:none;font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:7px;color:var(--ink);"><input type="checkbox" name="reqFeatures" value="Email newsletter signup" style="width:auto;">Email newsletter signup</label>
+            <label style="text-transform:none;font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:7px;color:var(--ink);"><input type="checkbox" name="reqFeatures" value="Multi-language" style="width:auto;">Multi-language</label>
+          </div>
+        </div>
+
+        <div>
+          <label for="reqAudience">Who is this website for? (your ideal visitor/customer)</label>
+          <textarea id="reqAudience" name="reqAudience" placeholder="e.g. local homeowners looking for a plumber, brides shopping for a photographer, etc."></textarea>
+        </div>
+
+        <div>
+          <label for="reqInspiration">Sites you like the look of (links or names), and why</label>
+          <textarea id="reqInspiration" name="reqInspiration"></textarea>
+        </div>
+
+        <div>
+          <label for="reqGoals">What should this site accomplish? (bookings, sales, credibility, info, etc.)</label>
+          <textarea id="reqGoals" name="reqGoals"></textarea>
+        </div>
+
+        <div>
+          <label for="reqNotes">Anything else I should know?</label>
+          <textarea id="reqNotes" name="reqNotes"></textarea>
+        </div>
+
+        <div class="form-submit">
+          <button type="submit" class="btn btn-primary">Submit request</button>
+          <span class="form-note">This opens a text message to me with everything filled in — nothing sends automatically.</span>
+        </div>
+      </form>
     </div>
   </section>
 
@@ -158,6 +238,40 @@
     menu.querySelectorAll('a').forEach(function (a) {
       a.addEventListener('click', closeMenu);
     });
+
+    var reqForm = document.getElementById('requestForm');
+    if (reqForm) {
+      reqForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var f = reqForm;
+        var features = Array.prototype.slice.call(f.querySelectorAll('input[name="reqFeatures"]:checked')).map(function (c) { return c.value; }).join(', ') || 'None selected';
+
+        var lines = [
+          'NEW PROJECT REQUEST',
+          'Name: ' + f.reqName.value.trim(),
+          'Email: ' + f.reqEmail.value.trim(),
+          'Phone: ' + (f.reqPhone.value.trim() || 'n/a'),
+          'Business: ' + (f.reqBusiness.value.trim() || 'n/a'),
+          'Type: ' + f.reqType.value,
+          'Budget: ' + f.reqBudget.value,
+          'Existing site: ' + (f.reqExisting.value.trim() || 'n/a'),
+          'Pages: ' + (f.reqPages.value.trim() || 'n/a'),
+          'Timeline: ' + (f.reqTimeline.value.trim() || 'n/a'),
+          'Content ready: ' + f.reqContent.value,
+          'Features: ' + features,
+          'Audience: ' + (f.reqAudience.value.trim() || 'n/a'),
+          'Inspiration: ' + (f.reqInspiration.value.trim() || 'n/a'),
+          'Goals: ' + (f.reqGoals.value.trim() || 'n/a'),
+          'Notes: ' + (f.reqNotes.value.trim() || 'n/a')
+        ];
+
+        var body = lines.join('\n');
+        var phone = '4173533406';
+        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        var separator = isIOS ? '&' : '?';
+        window.location.href = 'sms:' + phone + separator + 'body=' + encodeURIComponent(body);
+      });
+    }
   })();
 </script>
 
