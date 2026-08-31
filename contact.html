@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Braden McCarty Web Design</title>
+<meta name="description" content="Tell me about your project — rough ideas welcome. Booking new projects for October 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-row">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">BM</span>
+      Braden McCarty
+    </a>
+    <ul class="nav-links">
+      <li><a href="services.html">Services</a></li>
+      <li><a href="index.html#process">Process</a></li>
+      <li><a href="work.html">Work</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="contact.html" class="btn btn-outline">Start a project</a>
+    </div>
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" id="menuToggle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-top">
+    <span class="brand" style="color:#fff;">
+      <span class="brand-mark" style="background:#fff;color:var(--accent-violet);">BM</span>
+      Braden McCarty
+    </span>
+    <button class="mobile-menu-close" aria-label="Close menu" id="menuClose">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+  </div>
+  <ul class="mobile-menu-links">
+    <li><a href="services.html">Services</a></li>
+    <li><a href="index.html#process">Process</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</div>
+
+<main>
+
+  <section style="padding-top:64px;">
+    <div class="wrap contact-grid">
+      <div class="contact-side">
+        <span class="eyebrow" style="color:var(--accent-flame);">Get in touch</span>
+        <h2>Tell me about your project</h2>
+        <p>Rough ideas are welcome. If you're not sure what you need yet, that's a completely normal place to start — describe the problem and we'll figure out the site from there.</p>
+
+        <div class="contact-direct">
+          <a href="mailto:mccartybraden3@gmail.com">mccartybraden3@gmail.com</a>
+        </div>
+
+        <span class="availability"><span class="dot"></span> Booking new projects for October 2026</span>
+      </div>
+
+      <form id="contactForm">
+        <div class="form-row">
+          <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required autocomplete="name">
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label for="type">Project type</label>
+            <select id="type" name="type">
+              <option>Landing page</option>
+              <option>Business site</option>
+              <option>Custom build</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div>
+            <label for="budget">Rough budget</label>
+            <select id="budget" name="budget">
+              <option>Under $500</option>
+              <option>$500 – $1,500</option>
+              <option>$1,500 – $3,000</option>
+              <option>Let's talk about it</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="message">Tell me about it</label>
+          <textarea id="message" name="message" required placeholder="What are you trying to build, and who's it for?"></textarea>
+        </div>
+
+        <div class="form-submit">
+          <button type="submit" class="btn btn-primary">Send it over</button>
+          <span class="form-note">This opens your email app with everything filled in — nothing sends automatically.</span>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>© 2026 Braden McCarty. Designed and built by me, obviously.</span>
+    <a href="mailto:mccartybraden3@gmail.com">mccartybraden3@gmail.com</a>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('menuToggle');
+    var close = document.getElementById('menuClose');
+    var menu = document.getElementById('mobileMenu');
+
+    function openMenu() {
+      menu.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+    function closeMenu() {
+      menu.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    toggle.addEventListener('click', openMenu);
+    close.addEventListener('click', closeMenu);
+    menu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', closeMenu);
+    });
+
+    var form = document.getElementById('contactForm');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = form.name.value.trim();
+      var email = form.email.value.trim();
+      var type = form.type.value;
+      var budget = form.budget.value;
+      var message = form.message.value.trim();
+
+      var subject = 'New project inquiry from ' + name;
+      var body =
+        'Name: ' + name + '\n' +
+        'Email: ' + email + '\n' +
+        'Project type: ' + type + '\n' +
+        'Budget: ' + budget + '\n\n' +
+        message;
+
+      var mailto = 'mailto:mccartybraden3@gmail.com' +
+        '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body);
+
+      window.location.href = mailto;
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work — Braden McCarty Web Design</title>
+<meta name="description" content="The kind of range I design for — local & hospitality, personal & creative brands, small business & services.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-row">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">BM</span>
+      Braden McCarty
+    </a>
+    <ul class="nav-links">
+      <li><a href="services.html">Services</a></li>
+      <li><a href="index.html#process">Process</a></li>
+      <li><a href="work.html">Work</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="contact.html" class="btn btn-outline">Start a project</a>
+    </div>
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" id="menuToggle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-top">
+    <span class="brand" style="color:#fff;">
+      <span class="brand-mark" style="background:#fff;color:var(--accent-violet);">BM</span>
+      Braden McCarty
+    </span>
+    <button class="mobile-menu-close" aria-label="Close menu" id="menuClose">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+  </div>
+  <ul class="mobile-menu-links">
+    <li><a href="services.html">Services</a></li>
+    <li><a href="index.html#process">Process</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</div>
+
+<main>
+
+  <section class="section-tint" style="padding-top:64px;">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow" style="color:var(--accent-violet);">Recent work</span>
+        <h2>Building this portfolio one project at a time</h2>
+        <p>I'm taking on new projects now, and I'd love for one of them to be the first thing featured here. In the meantime, here's the kind of range I design for.</p>
+      </div>
+
+      <div class="work-grid">
+        <div class="work-card">
+          <div class="mock" style="background:var(--accent-violet);">
+            <div class="mock-chrome"><span></span><span></span><span></span></div>
+            <div class="mock-body" style="background:color-mix(in srgb, var(--accent-violet) 60%, #000 10%);">
+              <div class="mock-bar w40" style="background:#fff;"></div>
+              <div class="mock-bar w80"></div>
+              <div class="mock-bar w60"></div>
+              <div class="mock-chip" style="background:var(--accent-lime);"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <h3>Local &amp; hospitality</h3>
+            <p>Restaurants, cafés, salons — sites built to answer "are they open, and where" in five seconds.</p>
+          </div>
+        </div>
+
+        <div class="work-card">
+          <div class="mock" style="background:var(--accent-flame);">
+            <div class="mock-chrome"><span></span><span></span><span></span></div>
+            <div class="mock-body" style="background:color-mix(in srgb, var(--accent-flame) 55%, #000 12%);">
+              <div class="mock-bar w40" style="background:#fff;"></div>
+              <div class="mock-bar w60"></div>
+              <div class="mock-bar w80"></div>
+              <div class="mock-chip" style="background:var(--accent-sun);"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <h3>Personal &amp; creative brands</h3>
+            <p>Portfolios and personal sites for photographers, artists, writers, and freelancers who need to look like themselves.</p>
+          </div>
+        </div>
+
+        <div class="work-card">
+          <div class="mock" style="background:#16121b;">
+            <div class="mock-chrome"><span></span><span></span><span></span></div>
+            <div class="mock-body" style="background:#2a2333;">
+              <div class="mock-bar w40" style="background:var(--accent-lime);"></div>
+              <div class="mock-bar w80"></div>
+              <div class="mock-bar w60"></div>
+              <div class="mock-chip" style="background:var(--accent-violet);"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <h3>Small business &amp; services</h3>
+            <p>Contractors, consultants, local shops — clear service pages, easy contact, nothing that gets in the way of a phone call.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-note">
+        <p>Want an early-client rate in exchange for a case study and a quote I can use here? Mention it in the form below — happy to talk about it.</p>
+        <a href="contact.html" class="btn btn-outline">Let's talk</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>© 2026 Braden McCarty. Designed and built by me, obviously.</span>
+    <a href="mailto:mccartybraden3@gmail.com">mccartybraden3@gmail.com</a>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('menuToggle');
+    var close = document.getElementById('menuClose');
+    var menu = document.getElementById('mobileMenu');
+
+    function openMenu() {
+      menu.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+    function closeMenu() {
+      menu.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    toggle.addEventListener('click', openMenu);
+    close.addEventListener('click', closeMenu);
+    menu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', closeMenu);
+    });
+  })();
+</script>
+
+</body>
+</html>
