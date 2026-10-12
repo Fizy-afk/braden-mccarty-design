@@ -19,10 +19,9 @@ Her hub. It shows whatever class she's in right now, with that class's resources
 - When she taps a class, the hub stays on it until the schedule moves to the next slot (a class starting or ending) or she taps "back to schedule".
 - Her pick and her to-do list are saved in the browser on that device. They don't sync between phone and laptop.
 
-## Putting it on GitHub Pages (replacing the old portfolio)
-1. In the repo, delete the old files: `index.html`, `work.html`, `services.html`, `contact.html`, `styles.css`, `sitemap.xml`, `robots.txt`.
-2. Upload everything in this folder, keeping the `css/`, `js/` and `data/` folders.
-3. Go to Settings → Pages → Deploy from branch → `main` / root.
-4. Optional: rename the repo in Settings, for example `dannikas-wrld`. The site URL becomes `https://fizy-afk.github.io/<repo-name>/`.
+## Live site
+**https://fizy-afk.github.io/dannikas-wrld/** is served by GitHub Pages from `main` / root.
 
-Note: a GitHub Pages site is public to anyone who has the link. The page tells search engines not to index it, but don't put anything private in `schedule.js`.
+To change something, edit the file on GitHub (pencil icon) and commit. The site updates in about a minute.
+
+Note: a GitHub Pages site is public to anyone who has the link. `robots.txt` and the page's meta tag tell search engines not to index it, but don't put anything private in `schedule.js`.
