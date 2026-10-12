@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>• ๔คภภเкคร ฬгl๔ •</title>
-  <meta name="description" content="her hub ✿ classes, links, and vibes">
+  <meta name="description" content="Her hub: classes, shortcuts, and vibes">
   <!-- personal hub: keep it out of search engines -->
   <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#150e26">
+  <meta name="theme-color" content="#0b0714">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23b48ef0'/%3E%3Ctext x='32' y='40' font-size='22' text-anchor='middle' font-family='sans-serif' font-weight='700' fill='%23150e26'%3E999%3C/text%3E%3C/svg%3E">
 
   <!-- installable as an app (opens at ?home=1, so it counts as her home page) -->
@@ -20,67 +20,79 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Noto+Sans+Thai:wght@600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=3">
-  <link rel="stylesheet" href="css/vibes.css?v=3">
+  <link rel="stylesheet" href="css/styles.css?v=4">
+  <link rel="stylesheet" href="css/vibes.css?v=4">
 </head>
 <body>
-  <div class="sky" aria-hidden="true"></div>
+  <!-- background: live starfield (js/sky.js) + cursor glow -->
+  <canvas class="sky" id="sky" aria-hidden="true"></canvas>
+  <div class="aura" aria-hidden="true"></div>
+  <div class="mark999" aria-hidden="true">999</div>
 
-  <header class="top wrap">
-    <div>
-      <p class="greeting" id="greeting">hi ✿</p>
-      <h1 class="title" aria-label="dannika's world">• ๔คภภเкคร ฬгl๔ •</h1>
-    </div>
-    <div class="clock">
-      <span class="clock-time" id="clock-time">--:--</span>
-      <span class="clock-date" id="clock-date"></span>
+  <header class="topbar wrap">
+    <p class="greeting" id="greeting">Hi</p>
+    <div class="topbar-right">
       <span class="day-badge" id="day-badge"></span>
+      <span class="clock-date" id="clock-date"></span>
+      <time class="clock" id="clock"><span id="clock-time">--:--</span><span class="clock-ap" id="clock-ap"></span></time>
     </div>
   </header>
 
-  <!-- SEARCH + SHORTCUT BUBBLES: js/home.js (defaults in data/settings.js) -->
-  <section class="launch wrap" aria-label="search and shortcuts">
+  <!-- TITLE + SEARCH + SHORTCUT BUBBLES (js/home.js; defaults in data/settings.js) -->
+  <section class="launch wrap" aria-label="Search and shortcuts">
+    <h1 class="title" id="title" aria-label="Dannika's world">• ๔คภภเкคร ฬгl๔ •</h1>
     <form class="search" id="search" action="https://www.google.com/search" method="get" role="search">
-      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-      <input id="search-input" name="q" type="search" placeholder="search google or type a link" aria-label="search google or type a link" autocomplete="off" enterkeyhint="search">
+      <span class="search-icon" data-icon="search"></span>
+      <input id="search-input" name="q" type="search" placeholder="Search Google or type a link" aria-label="Search Google or type a link" autocomplete="off" enterkeyhint="search">
       <kbd class="search-hint" aria-hidden="true">/</kbd>
     </form>
-    <nav class="bubbles" id="bookmarks" aria-label="shortcuts"></nav>
+    <nav class="bubbles" id="bookmarks" aria-label="Shortcuts"></nav>
   </section>
 
   <main class="wrap">
-    <!-- RIGHT NOW: filled in by js/app.js from data/schedule.js -->
-    <section class="now card" id="now" aria-live="polite"></section>
+    <!-- 01 RIGHT NOW (js/app.js) -->
+    <section class="sec" aria-labelledby="now-h">
+      <header class="sec-head"><span class="sec-num">01</span><h2 id="now-h">Right now</h2><span class="sec-rule"></span><span class="sec-aside" id="now-aside"></span></header>
+      <div class="now-grid">
+        <article class="hero spot" id="now" aria-live="polite"></article>
+        <figure class="dial-card spot">
+          <div class="dial" id="dial"></div>
+          <figcaption><ol class="dial-legend" id="dial-legend"></ol></figcaption>
+        </figure>
+      </div>
+    </section>
 
-    <!-- MY CLASSES: Canvas-style cards with resource bubbles (js/app.js) -->
-    <section class="courses" aria-labelledby="courses-title">
-      <h2 class="section-label" id="courses-title">my classes</h2>
+    <!-- 02 CLASSES -->
+    <section class="sec" aria-labelledby="classes-h">
+      <header class="sec-head"><span class="sec-num">02</span><h2 id="classes-h">Classes</h2><span class="sec-rule"></span><button class="btn ghost sm" type="button" data-canvas=""><span data-icon="book-marked"></span>Canvas pages</button></header>
       <div class="course-grid" id="course-cards"></div>
     </section>
 
-    <div class="grid">
-      <section class="card" aria-labelledby="today-title">
-        <h2 id="today-title">today</h2>
-        <ol class="timeline" id="today-list"></ol>
-      </section>
-
-      <section class="card" aria-labelledby="todo-title">
-        <h2 id="todo-title">little list</h2>
-        <form class="todo-form" id="todo-form" autocomplete="off">
-          <input id="todo-input" type="text" placeholder="add something…" aria-label="new to-do" maxlength="140">
-          <button class="btn" type="submit">add</button>
-        </form>
-        <ul class="todo-list" id="todo-list"></ul>
-      </section>
-
-      <section class="card span-all" aria-labelledby="week-title">
-        <h2 id="week-title">this week</h2>
-        <div class="week-grid" id="week"></div>
-        <ul class="coming-up" id="coming-up" aria-label="coming up"></ul>
-      </section>
-    </div>
+    <!-- 03 THIS WEEK + COMING UP + TO-DO -->
+    <section class="sec" aria-labelledby="week-title">
+      <header class="sec-head"><span class="sec-num">03</span><h2 id="week-title">This week</h2><span class="sec-rule"></span></header>
+      <div class="week-layout">
+        <div class="panel week-panel">
+          <div class="wk" id="week"></div>
+        </div>
+        <div class="side">
+          <div class="panel spot">
+            <h3 class="panel-h"><span data-icon="flag"></span>Coming up</h3>
+            <ul class="coming-up" id="coming-up"></ul>
+          </div>
+          <div class="panel spot">
+            <h3 class="panel-h"><span data-icon="list-checks"></span>To-do</h3>
+            <form class="todo-form" id="todo-form" autocomplete="off">
+              <input id="todo-input" type="text" placeholder="Add something" aria-label="New to-do" maxlength="140">
+              <button class="icon-btn solid" type="submit" aria-label="Add to-do"><span data-icon="plus"></span></button>
+            </form>
+            <ul class="todo-list" id="todo-list"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- =====================================================================
          VIBES — shows + music
@@ -88,49 +100,49 @@
          - Put content in data/vibes.js, rendering in js/vibes.js, styles in css/vibes.css.
          - You may change anything INSIDE this <section>. Don't edit outside it.
          ===================================================================== -->
-    <section class="vibes card" id="vibes" aria-labelledby="vibes-title">
-      <h2 id="vibes-title">vibes ✿ shows &amp; music</h2>
-      <div id="vibes-root"></div>
+    <section class="sec vibes" id="vibes" aria-labelledby="vibes-title">
+      <header class="sec-head"><span class="sec-num">04</span><h2 id="vibes-title">Vibes</h2><span class="sec-rule"></span><span class="sec-aside">Shows &amp; music</span></header>
+      <div class="panel" id="vibes-root"></div>
     </section>
     <!-- ======================= END VIBES ================================== -->
   </main>
 
-  <footer class="foot">
-    <span class="nine">999</span>
-    <span>legends never die ✿ made with love, just for you</span>
-    <button class="link-btn" type="button" data-action="home-setup">make this your home page</button>
+  <footer class="foot wrap">
+    <button class="nine" id="nine" type="button" aria-label="999: make it rain shooting stars">999</button>
+    <span class="foot-line">Legends never die</span>
+    <button class="link-btn" type="button" data-action="home-setup">Make this your home page</button>
   </footer>
 
   <!-- "make this your home page" popup (js/home.js) -->
   <dialog class="modal" id="home-dialog" aria-labelledby="home-title">
-    <button class="modal-x" type="button" data-close aria-label="close">×</button>
-    <p class="modal-kicker">✿ quick setup</p>
-    <h2 id="home-title">make this your home page</h2>
-    <p class="modal-lead">so your classes are the first thing you see every time you open chrome.</p>
+    <button class="modal-x" type="button" data-close aria-label="Close"><span data-icon="x"></span></button>
+    <p class="modal-kicker">Quick setup</p>
+    <h2 id="home-title">Make this your home page</h2>
+    <p class="modal-lead">So your classes are the first thing you see every time you open Chrome.</p>
 
     <div class="copy-row">
-      <input id="home-url" type="text" readonly aria-label="your home page link">
-      <button class="btn" type="button" id="copy-home">copy link</button>
+      <input id="home-url" type="text" readonly aria-label="Your home page link">
+      <button class="btn" type="button" id="copy-home"><span data-icon="copy"></span><span class="copy-label">Copy link</span></button>
     </div>
 
-    <div class="tabs" role="tablist" aria-label="your device">
-      <button class="tab" type="button" role="tab" data-tab="computer" aria-controls="panel-computer">💻 computer</button>
-      <button class="tab" type="button" role="tab" data-tab="android" aria-controls="panel-android">🤖 android</button>
-      <button class="tab" type="button" role="tab" data-tab="iphone" aria-controls="panel-iphone">📱 iphone</button>
+    <div class="tabs" role="tablist" aria-label="Your device">
+      <button class="tab" type="button" role="tab" data-tab="computer" aria-controls="panel-computer"><span data-icon="monitor"></span>Computer</button>
+      <button class="tab" type="button" role="tab" data-tab="android" aria-controls="panel-android"><span data-icon="smartphone"></span>Android</button>
+      <button class="tab" type="button" role="tab" data-tab="iphone" aria-controls="panel-iphone"><span data-icon="smartphone"></span>iPhone</button>
     </div>
 
     <div class="tab-panel" id="panel-computer" role="tabpanel" data-panel="computer">
       <ol class="steps">
-        <li>Hit <b>copy link</b> up top.</li>
+        <li>Hit <b>Copy link</b> above.</li>
         <li>In Chrome, click <b>⋮</b> (top right) → <b>Settings</b>.</li>
         <li>Click <b>On startup</b> → <b>Open a specific page or set of pages</b> → <b>Add a new page</b> → paste → <b>Add</b>.</li>
-        <li>Then click <b>Appearance</b> → turn on <b>Show home button</b> → click the box under it and paste the link there too. Now the 🏠 button brings you back here.</li>
+        <li>Then click <b>Appearance</b> → turn on <b>Show home button</b> → click the box under it and paste the link there too. Now the home button brings you back here.</li>
       </ol>
     </div>
 
     <div class="tab-panel" id="panel-android" role="tabpanel" data-panel="android" hidden>
       <ol class="steps">
-        <li>Hit <b>copy link</b> up top.</li>
+        <li>Hit <b>Copy link</b> above.</li>
         <li>In Chrome, tap <b>⋮</b> (top right) → <b>Settings</b> → <b>Homepage</b>.</li>
         <li>Turn it on, tap <b>Enter custom web address</b>, and paste the link.</li>
         <li>Want an app icon too? Tap <b>⋮</b> → <b>Add to Home screen</b> → <b>Install</b>.</li>
@@ -140,39 +152,76 @@
     <div class="tab-panel" id="panel-iphone" role="tabpanel" data-panel="iphone" hidden>
       <p class="steps-note">iPhone Chrome doesn't have a home page setting, so turn it into an app instead:</p>
       <ol class="steps">
-        <li>Tap <b>open home link</b> below.</li>
-        <li>Tap the share button (<b>□↑</b>). In Chrome it's in the address bar, in Safari it's at the bottom.</li>
+        <li>Tap <b>Open home link</b> below.</li>
+        <li>Tap the share button. In Chrome it's in the address bar, in Safari it's at the bottom.</li>
         <li>Tap <b>Add to Home Screen</b> → <b>Add</b>.</li>
-        <li>Open it from the new icon on your home screen ✿</li>
+        <li>Open it from the new icon on your home screen.</li>
       </ol>
-      <a class="btn btn-block" id="home-link" href="?home=1">open home link</a>
+      <a class="btn btn-block" id="home-link" href="?home=1">Open home link <span data-icon="arrow-right"></span></a>
     </div>
 
     <div class="modal-actions">
-      <button class="ghost" type="button" data-close>maybe later</button>
-      <button class="link-btn" type="button" id="home-never">don't ask again</button>
+      <button class="btn ghost" type="button" data-close>Maybe later</button>
+      <button class="link-btn" type="button" id="home-never">Don't ask again</button>
     </div>
   </dialog>
 
   <!-- add / remove shortcut bubbles (js/home.js) -->
   <dialog class="modal" id="shortcut-dialog" aria-labelledby="shortcut-title">
-    <button class="modal-x" type="button" data-close aria-label="close">×</button>
-    <h2 id="shortcut-title">add a shortcut</h2>
+    <button class="modal-x" type="button" data-close aria-label="Close"><span data-icon="x"></span></button>
+    <p class="modal-kicker">Shortcuts</p>
+    <h2 id="shortcut-title">Your shortcuts</h2>
     <form class="shortcut-form" id="shortcut-form" autocomplete="off">
-      <label>name <input id="sc-name" type="text" required maxlength="24" placeholder="youtube"></label>
-      <label>link <input id="sc-url" type="text" required placeholder="youtube.com" inputmode="url"></label>
-      <button class="btn" type="submit">add shortcut</button>
+      <label>Name <input id="sc-name" type="text" required maxlength="24" placeholder="YouTube"></label>
+      <label>Link <input id="sc-url" type="text" required placeholder="youtube.com" inputmode="url"></label>
+      <button class="btn" type="submit"><span data-icon="plus"></span>Add shortcut</button>
     </form>
-    <h3 class="modal-sub">your shortcuts</h3>
+    <div class="modal-sub-row"><h3 class="modal-sub">On your page</h3><button class="link-btn" type="button" id="sc-restore" hidden>Bring back removed ones</button></div>
     <ul class="sc-list" id="sc-list"></ul>
   </dialog>
 
+  <!-- link each class to its Canvas page (js/canvas.js) -->
+  <dialog class="modal modal-wide" id="canvas-dialog" aria-labelledby="canvas-title">
+    <button class="modal-x" type="button" data-close aria-label="Close"><span data-icon="x"></span></button>
+    <p class="modal-kicker">Canvas</p>
+    <h2 id="canvas-title">Link your Canvas pages</h2>
+    <p class="modal-lead">Each class gets a button that opens its own Canvas page.</p>
+
+    <p class="found-banner" id="canvas-found" hidden></p>
+
+    <section class="finder">
+      <div class="finder-head">
+        <span class="finder-i" data-icon="sparkles"></span>
+        <div><b>Find them for me</b><span>Websites can't look through your laptop, but this button can read your class list straight from Canvas and fill everything in.</span></div>
+      </div>
+      <ol class="steps">
+        <li>Drag this to your bookmarks bar: <a class="bookmarklet" id="bookmarklet" href="#" title="Drag me to your bookmarks bar"><span data-icon="sparkles"></span>Find my classes</a><small class="hint" id="bookmarklet-hint">Can't see the bar? Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>.</small></li>
+        <li><a href="https://springfieldpublicschools.instructure.com" target="_blank" rel="noopener">Open Canvas</a> and sign in.</li>
+        <li>Click <b>Find my classes</b> in the bookmarks bar. You'll come right back here with your classes matched.</li>
+      </ol>
+    </section>
+
+    <form id="canvas-form" autocomplete="off" novalidate>
+      <h3 class="modal-sub">Or paste the links</h3>
+      <div class="cv-rows" id="canvas-rows"></div>
+      <div class="modal-actions">
+        <button class="btn ghost" type="button" data-close>Cancel</button>
+        <button class="btn" type="submit"><span data-icon="check"></span>Save</button>
+      </div>
+    </form>
+  </dialog>
+
   <!-- plain scripts (no modules) so this also works when opened straight from a folder -->
-  <script src="data/settings.js?v=3"></script>
-  <script src="data/schedule.js?v=3"></script>
-  <script src="data/vibes.js?v=3"></script>
-  <script src="js/app.js?v=3"></script>
-  <script src="js/home.js?v=3"></script>
-  <script src="js/vibes.js?v=3"></script>
+  <script src="data/settings.js?v=4"></script>
+  <script src="data/schedule.js?v=4"></script>
+  <script src="data/vibes.js?v=4"></script>
+  <script src="js/icons.js?v=4"></script>
+  <script src="js/core.js?v=4"></script>
+  <script src="js/sky.js?v=4"></script>
+  <script src="js/fx.js?v=4"></script>
+  <script src="js/app.js?v=4"></script>
+  <script src="js/home.js?v=4"></script>
+  <script src="js/canvas.js?v=4"></script>
+  <script src="js/vibes.js?v=4"></script>
 </body>
 </html>
