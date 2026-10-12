@@ -13,6 +13,7 @@
 
   const settings = window.WRLD_SETTINGS || {};
   const BOOKMARKS_KEY = "wrld.bookmarks";
+  const HIDDEN_KEY = "wrld.hiddenLinks";
   const HOME_SET_KEY = "wrld.homeSet";
   const HOME_NEVER_KEY = "wrld.homeNever";
 
@@ -79,25 +80,50 @@
   let custom = store.get(BOOKMARKS_KEY, []);
   const faviconUrl = (url) => "https://www.google.com/s2/favicons?domain=" + encodeURIComponent(hostOf(url)) + "&sz=64";
 
+  const icon = (name) => (window.wrldIcon ? window.wrldIcon(name) : "");
+
+  // Every shortcut on the page: the defaults she hasn't removed, then her own.
+  let hidden = store.get(HIDDEN_KEY, []);
+  function allShortcuts() {
+    return (settings.links || [])
+      .filter((l) => !hidden.includes(l.url))
+      .map((l) => Object.assign({ key: "d:" + l.url }, l))
+      .concat(custom.map((l, i) => Object.assign({ key: "c:" + i }, l)));
+  }
+
+  function removeShortcut(key) {
+    if (key.startsWith("d:")) {
+      hidden.push(key.slice(2));
+      store.set(HIDDEN_KEY, hidden);
+    } else {
+      custom.splice(Number(key.slice(2)), 1);
+      store.set(BOOKMARKS_KEY, custom);
+    }
+    renderBookmarks();
+    renderShortcutList();
+  }
+
   function bubbleHtml(b) {
-    const icon = b.favicon === false
-      ? esc(b.icon || "↗")
-      : '<img src="' + esc(faviconUrl(b.url)) + '" alt="" width="26" height="26" data-fallback="' + esc(b.icon || "↗") + '">';
-    return '<a class="bubble" href="' + esc(b.url) + '" title="' + esc(b.label) + '">' +
-      '<span class="bubble-icon" aria-hidden="true">' + icon + "</span>" +
-      '<span class="bubble-label">' + esc(b.label) + "</span></a>";
+    const fallback = b.icon || "globe";
+    const art = b.favicon === false
+      ? icon(fallback)
+      : '<img src="' + esc(faviconUrl(b.url)) + '" alt="" width="24" height="24" data-fallback="' + esc(fallback) + '">';
+    return '<span class="bubble-wrap"><a class="bubble" href="' + esc(b.url) + '" title="' + esc(b.label) + '">' +
+      '<span class="bubble-icon" aria-hidden="true">' + art + "</span>" +
+      '<span class="bubble-label">' + esc(b.label) + "</span></a>" +
+      '<button class="bubble-x" type="button" data-unlink="' + esc(b.key) + '" aria-label="Remove ' + esc(b.label) + '" title="Remove">' + icon("x") + "</button></span>";
   }
 
   function renderBookmarks() {
-    const all = (settings.links || []).concat(custom);
-    $("#bookmarks").innerHTML = all.map(bubbleHtml).join("") +
+    $("#bookmarks").innerHTML = allShortcuts().map(bubbleHtml).join("") +
       '<button class="bubble add" type="button" data-action="add-shortcut">' +
-      '<span class="bubble-icon" aria-hidden="true">+</span><span class="bubble-label">add</span></button>';
+      '<span class="bubble-icon" aria-hidden="true">' + icon("plus") + '</span><span class="bubble-label">Edit</span></button>';
   }
 
-  // No icon (or only a tiny blurry one)? Use the emoji instead.
+  // No logo (or only a tiny blurry one)? Use the line icon instead.
   function useFallback(img) {
-    img.replaceWith(document.createTextNode(img.getAttribute("data-fallback") || "↗"));
+    const holder = img.parentNode;
+    if (holder) holder.innerHTML = icon(img.getAttribute("data-fallback") || "globe");
   }
   $("#bookmarks").addEventListener("error", (e) => { if (e.target.tagName === "IMG") useFallback(e.target); }, true);
   $("#bookmarks").addEventListener("load", (e) => {
@@ -105,20 +131,29 @@
   }, true);
 
   function renderShortcutList() {
-    $("#sc-list").innerHTML = custom.length
-      ? custom.map((b, i) =>
-        "<li><span>" + esc(b.label) + " <small>" + esc(hostOf(b.url)) + "</small></span>" +
-        '<button class="x" type="button" data-remove="' + i + '" aria-label="remove ' + esc(b.label) + '">×</button></li>'
+    const all = allShortcuts();
+    $("#sc-list").innerHTML = all.length
+      ? all.map((b) =>
+        '<li><span class="sc-name">' + esc(b.label) + " <small>" + esc(hostOf(b.url)) + "</small></span>" +
+        '<button class="icon-btn" type="button" data-unlink="' + esc(b.key) + '" aria-label="Remove ' + esc(b.label) + '">' + icon("trash-2") + "</button></li>"
       ).join("")
-      : '<li class="empty">nothing added yet ✿</li>';
+      : '<li class="empty">No shortcuts. Add one above.</li>';
+    $("#sc-restore").hidden = !hidden.length;
   }
+
+  $("#sc-restore").addEventListener("click", () => {
+    hidden = [];
+    store.set(HIDDEN_KEY, hidden);
+    renderBookmarks();
+    renderShortcutList();
+  });
 
   $("#shortcut-form").addEventListener("submit", (e) => {
     e.preventDefault();
     const nameEl = $("#sc-name"), urlEl = $("#sc-url");
     const url = withScheme(urlEl.value.trim());
     if (!LOOKS_LIKE_URL.test(url)) {
-      urlEl.setCustomValidity("that doesn't look like a link");
+      urlEl.setCustomValidity("That doesn't look like a link");
       urlEl.reportValidity();
       return;
     }
@@ -154,8 +189,8 @@
   selectTab(isApple ? "iphone" : isAndroid ? "android" : "computer");
 
   $("#copy-home").addEventListener("click", () => {
-    const btn = $("#copy-home");
-    const done = () => { btn.textContent = "copied ✓"; setTimeout(() => { btn.textContent = "copy link"; }, 2000); };
+    const label = $("#copy-home .copy-label");
+    const done = () => { label.textContent = "Copied"; setTimeout(() => { label.textContent = "Copy link"; }, 2000); };
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(homeUrl).then(done, () => { $("#home-url").select(); });
     } else {
@@ -169,7 +204,9 @@
     closeDialog(homeDialog);
   });
 
-  const shouldNag = !openedAsHome && !viaHomeLink && !store.get(HOME_SET_KEY, false) && !store.get(HOME_NEVER_KEY, false);
+  // (skip it when she's just come back from "Find my classes" — that opens its own popup)
+  const backFromCanvas = location.hash.startsWith("#canvas=");
+  const shouldNag = !openedAsHome && !viaHomeLink && !backFromCanvas && !store.get(HOME_SET_KEY, false) && !store.get(HOME_NEVER_KEY, false);
 
   /* ---------- clicks ---------- */
   document.addEventListener("click", (e) => {
@@ -188,13 +225,8 @@
       return;
     }
 
-    const rm = e.target.closest("[data-remove]");
-    if (rm) {
-      custom.splice(Number(rm.getAttribute("data-remove")), 1);
-      store.set(BOOKMARKS_KEY, custom);
-      renderBookmarks();
-      renderShortcutList();
-    }
+    const rm = e.target.closest("[data-unlink]");
+    if (rm) removeShortcut(rm.getAttribute("data-unlink"));
   });
 
   /* ---------- go ---------- */
