@@ -10,7 +10,7 @@ A private hub and Chrome home page, made as a gift.
 
 ## Features
 - **Sidebar (like Opera's):** a rail on the left, or a dock along the bottom on phones.
-  - **Spotify:** the real Spotify player lives in a panel and keeps playing when the panel closes. There's a library of saved playlists, albums and songs.
+  - **Spotify:** opens Spotify in a new tab.
   - **sportsYou:** opens in a slim window docked beside the page, because sportsYou blocks being shown inside other sites.
   - **Jumps:** buttons that go straight to each section.
   - Both logos are their real logos, drawn in the accent color.
@@ -35,7 +35,7 @@ A private hub and Chrome home page, made as a gift.
 | `js/notes.js` | Notes and Apple Notes import |
 | `js/settings.js` | The settings panel, backup / restore |
 | `js/edit.js` | Hold-to-edit mode: wiggle, drag and snap, hide |
-| `js/sidebar.js` | The sidebar rail, Spotify + sportsYou panels |
+| `js/sidebar.js` | The sidebar rail and the sportsYou panel |
 | `js/sky.js`, `js/fx.js` | Starfield, card glow and tilt, title wave, sparkles |
 | `js/icons.js` | Bundled Lucide icons |
 | `data/vibes.js`, `js/vibes.js`, `css/vibes.css` | Shows & music. See `LLM_INSTRUCTIONS.md` |

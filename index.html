@@ -22,8 +22,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Noto+Sans+Thai:wght@600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=7">
-  <link rel="stylesheet" href="css/vibes.css?v=7">
+  <link rel="stylesheet" href="css/styles.css?v=8">
+  <link rel="stylesheet" href="css/vibes.css?v=8">
 </head>
 <body>
   <!-- background: live starfield (js/sky.js) + cursor glow -->
@@ -55,10 +55,9 @@
     <nav class="rail" id="rail" aria-label="Sidebar">
       <button class="rail-btn rail-home" type="button" data-rail="home" data-tip="Top" aria-label="Back to the top"><span class="rail-999">999</span></button>
       <span class="rail-sep" aria-hidden="true"></span>
-      <button class="rail-btn rail-app" type="button" data-panel-toggle="spotify" data-tip="Spotify" aria-label="Spotify" aria-expanded="false" aria-controls="panel-spotify">
+      <a class="rail-btn rail-app" href="https://open.spotify.com" target="_blank" rel="noopener" data-tip="Spotify" aria-label="Spotify (opens in a new tab)">
         <svg class="brand-spotify" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-        <i class="rail-dot" aria-hidden="true"></i>
-      </button>
+      </a>
       <button class="rail-btn rail-app" type="button" data-panel-toggle="sportsyou" data-tip="sportsYou" aria-label="sportsYou" aria-expanded="false" aria-controls="panel-sportsyou">
         <span class="sy-tile"><span class="brand-sy"></span></span>
       </button>
@@ -70,31 +69,6 @@
       <span class="rail-grow" aria-hidden="true"></span>
       <button class="rail-btn" type="button" data-action="settings" data-tip="Settings" aria-label="Settings"><span data-icon="settings"></span></button>
     </nav>
-
-    <aside class="side-panel" id="panel-spotify" data-panel="spotify" aria-label="Spotify" inert>
-      <header class="panel-head">
-        <svg class="brand-spotify" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-        <h2>Spotify</h2>
-        <a class="icon-btn" href="https://open.spotify.com" target="_blank" rel="noopener" aria-label="Open Spotify in a new tab" title="Open in a new tab"><span data-icon="arrow-up-right"></span></a>
-        <button class="icon-btn" type="button" data-panel-pin aria-pressed="false" aria-label="Keep the panel open beside the page" title="Pin"><span data-icon="pin"></span></button>
-        <button class="icon-btn" type="button" data-panel-close aria-label="Close" title="Close"><span data-icon="x"></span></button>
-      </header>
-      <div class="panel-body sp-body">
-        <div class="sp-player" id="sp-player"><span class="sp-loading"><span data-icon="music"></span>Loading the player…</span></div>
-        <form class="sp-add" id="sp-add" autocomplete="off">
-          <input class="field" id="sp-link" type="text" placeholder="Paste a Spotify link" aria-label="Spotify link to add" inputmode="url">
-          <button class="icon-btn solid" type="submit" aria-label="Add to your music"><span data-icon="plus"></span></button>
-        </form>
-        <p class="hint">In Spotify: tap <b>•••</b> → <b>Share</b> → <b>Copy link</b> on any playlist, album or song.</p>
-        <h3 class="panel-label">Your music</h3>
-        <ul class="sp-list" id="sp-list"></ul>
-        <div class="sp-signin">
-          <span data-icon="headphones"></span>
-          <p>Hearing 30-second previews? Sign in to Spotify once in this browser and the player plays full songs.</p>
-          <button class="btn ghost sm" type="button" data-sp-signin><span data-icon="user-round"></span>Sign in to Spotify</button>
-        </div>
-      </div>
-    </aside>
 
     <aside class="side-panel" id="panel-sportsyou" data-panel="sportsyou" aria-label="sportsYou" inert>
       <header class="panel-head">
@@ -476,10 +450,10 @@
   </dialog>
 
   <!-- Only these load before unlocking (no private data). js/gate.js loads the rest. -->
-  <script src="js/icons.js?v=7"></script>
-  <script src="js/prefs.js?v=7"></script>
-  <script src="js/sky.js?v=7"></script>
-  <script src="data/private.js?v=7"></script>
-  <script src="js/gate.js?v=7"></script>
+  <script src="js/icons.js?v=8"></script>
+  <script src="js/prefs.js?v=8"></script>
+  <script src="js/sky.js?v=8"></script>
+  <script src="data/private.js?v=8"></script>
+  <script src="js/gate.js?v=8"></script>
 </body>
 </html>
