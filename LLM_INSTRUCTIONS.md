@@ -1,6 +1,11 @@
 # Instructions for the "vibes" LLM
 
-You are building the **shows + music** section of **• ๔คภภเкคร ฬгl๔ •** ("dannikas wrld"). It's a personal hub site a guy made for his girlfriend. The rest of the site already exists and works. Your job is only the **vibes** section (section "04 Vibes" near the bottom of the page).
+You are building the **shows + music** section of **• ๔คภภเкคร ฬгl๔ •** ("dannikas wrld"). It's a personal hub site a guy made for his girlfriend. The rest of the site already exists and works. Your job is only the **vibes** section (the "Vibes" section near the bottom of the page).
+
+**The page is password-protected.**
+- Ask the owner for the password to test it locally, and never write it into any file.
+- Your files (`data/vibes.js`, `js/vibes.js`, `css/vibes.css`) are not encrypted, so they can't hold anything private.
+- They load after the page unlocks. Your script runs after the rest of the page is built.
 
 ## What the site is
 - A plain static site with no build step, no framework and no npm. It's hosted on GitHub Pages and also works when you double-click `index.html`.
@@ -17,7 +22,7 @@ You are building the **shows + music** section of **• ๔คภภเкคร 
 | `data/vibes.js` | The content: `window.WRLD_VIBES = { shows, music }`. The schema is documented at the top of the file. You may reshape it. |
 | `js/vibes.js` | Renders `WRLD_VIBES` into `<div id="vibes-root">`. A bare starter is there now. Rewrite it however you like. |
 | `css/vibes.css` | Styles for the section. **Scope every rule under `.vibes`.** |
-| `index.html`, only between `VIBES` and `END VIBES` | You may change the markup inside `<section id="vibes">`. Keep its `sec-head` header so it matches sections 01–03. |
+| `index.html`, only between `VIBES` and `END VIBES` | You may change the markup inside `<section id="vibes">`. Keep its `sec-head` header (with the `sec-num` span) and its `data-key="vibes"` attribute. Edit mode uses them to move and number sections. |
 
 ## Icons
 `wrldIcon("music")` returns a ready `<svg>` (Lucide line icons, bundled in `js/icons.js`). In HTML you can also write `<span data-icon="music"></span>`. Icons already available: tv, music, headphones, play, heart, star, sparkles, moon-star, and more (see the keys in `js/icons.js`).
@@ -25,7 +30,9 @@ You are building the **shows + music** section of **• ๔คภภเкคร 
 If you need an icon that isn't there, add its `<path>` markup from lucide.dev to the end of the `ICONS` map in `js/icons.js`. That's the only change you may make to that file.
 
 ## Files you must NOT edit
-`css/styles.css`, `js/app.js`, `js/core.js`, `js/home.js`, `js/canvas.js`, `js/sky.js`, `js/fx.js`, `data/schedule.js`, `data/settings.js`, `manifest.webmanifest`, `icons/`, and everything in `index.html` outside the VIBES block.
+`css/styles.css`, `js/gate.js`, `js/prefs.js`, `js/app.js`, `js/core.js`, `js/home.js`, `js/canvas.js`, `js/notes.js`, `js/settings.js`, `js/edit.js`, `js/sky.js`, `js/fx.js`, `data/private.js`, `manifest.webmanifest`, `icons/`, and everything in `index.html` outside the VIBES block.
+
+To add a new file of yours (say `js/vibes-player.js`), ask the owner. Scripts are loaded by `js/gate.js` after unlocking, not by `index.html`.
 
 Those files run:
 - the class schedule, day dial, class cards and week calendar
@@ -37,7 +44,10 @@ Those files run:
 Also avoid:
 - Global CSS selectors (`body`, `h2`, `a`, `.panel`, `.spot`, `.tilt`, `.hero`, `.course`, `.bubble`, `.blk`, `.arc`, `.modal` without `.vibes` in front)
 - Global JS variables. Keep your code inside the existing IIFE in `js/vibes.js`.
-- Element IDs that clash with the hub: `sky`, `title`, `now`, `dial*`, `course-cards`, `week*`, `coming-up`, `todo-*`, `greeting`, `clock*`, `day-badge`, `search*`, `bookmarks`, `nine`, `home-*`, `shortcut-*`, `sc-*`, `canvas-*`, `cv-*`, `bookmarklet*`
+- Element IDs that clash with the hub: `sky`, `title`, `app`, `lock*`, `now`, `dial*`, `course-cards`, `week*`, `coming-up`, `todo-*`, `greeting`, `clock*`, `day-badge`, `search*`, `bookmarks`, `nine`, `home-*`, `shortcut-*`, `sc-*`, `canvas-*`, `cv-*`, `bookmarklet*`, `notes*`, `note-*`, `ni-*`, `settings`, `set-*`, `edit-*`
+- Using `data-key` on your own elements. Edit mode treats `data-key` as "movable".
+- Your own `localStorage` keys: start them with `wrld.vibes.` so backups include them.
+- Matching the accent: use `var(--wrld)` and `color-mix(in srgb, var(--wrld) 20%, transparent)` rather than hard-coded lavender. She can change the accent in Settings.
 - Extra `<dialog>` popups or anything that opens on page load. The hub already has its own popups.
 
 ## Things you can reuse

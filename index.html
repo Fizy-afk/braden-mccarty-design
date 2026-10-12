@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="booting">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>• ๔คภภเкคร ฬгl๔ •</title>
-  <meta name="description" content="Her hub: classes, shortcuts, and vibes">
-  <!-- personal hub: keep it out of search engines -->
+  <meta name="description" content="A private page.">
+  <!-- private page: keep it out of search engines -->
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0b0714">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23b48ef0'/%3E%3Ctext x='32' y='40' font-size='22' text-anchor='middle' font-family='sans-serif' font-weight='700' fill='%23150e26'%3E999%3C/text%3E%3C/svg%3E">
@@ -22,8 +22,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Noto+Sans+Thai:wght@600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=4">
-  <link rel="stylesheet" href="css/vibes.css?v=4">
+  <link rel="stylesheet" href="css/styles.css?v=5">
+  <link rel="stylesheet" href="css/vibes.css?v=5">
 </head>
 <body>
   <!-- background: live starfield (js/sky.js) + cursor glow -->
@@ -31,87 +31,158 @@
   <div class="aura" aria-hidden="true"></div>
   <div class="mark999" aria-hidden="true">999</div>
 
-  <header class="topbar wrap">
-    <p class="greeting" id="greeting">Hi</p>
-    <div class="topbar-right">
-      <span class="day-badge" id="day-badge"></span>
-      <span class="clock-date" id="clock-date"></span>
-      <time class="clock" id="clock"><span id="clock-time">--:--</span><span class="clock-ap" id="clock-ap"></span></time>
+  <!-- LOCK (js/gate.js): the page's private data stays encrypted until the password is entered once on this device -->
+  <div class="lock" id="lock" hidden>
+    <div class="lock-card">
+      <span class="lock-mark">999</span>
+      <p class="lock-title" aria-hidden="true">• ๔คภภเкคร ฬгl๔ •</p>
+      <h1 class="lock-lead">Just for you.</h1>
+      <p class="lock-sub">Enter the password once and this device will remember it.</p>
+      <form class="lock-form" id="lock-form" autocomplete="off">
+        <label class="lock-field">
+          <span data-icon="key-round"></span>
+          <input id="lock-input" type="password" autocomplete="current-password" placeholder="Password" aria-label="Password" spellcheck="false" autocapitalize="off">
+          <button class="icon-btn" type="button" id="lock-eye" aria-label="Show password"><span data-icon="eye"></span></button>
+        </label>
+        <button class="btn btn-block" type="submit"><span data-icon="lock-open"></span>Unlock</button>
+        <p class="lock-error" id="lock-error" role="alert"></p>
+      </form>
     </div>
-  </header>
+  </div>
 
-  <!-- TITLE + SEARCH + SHORTCUT BUBBLES (js/home.js; defaults in data/settings.js) -->
-  <section class="launch wrap" aria-label="Search and shortcuts">
-    <h1 class="title" id="title" aria-label="Dannika's world">• ๔คภภเкคร ฬгl๔ •</h1>
-    <form class="search" id="search" action="https://www.google.com/search" method="get" role="search">
-      <span class="search-icon" data-icon="search"></span>
-      <input id="search-input" name="q" type="search" placeholder="Search Google or type a link" aria-label="Search Google or type a link" autocomplete="off" enterkeyhint="search">
-      <kbd class="search-hint" aria-hidden="true">/</kbd>
-    </form>
-    <nav class="bubbles" id="bookmarks" aria-label="Shortcuts"></nav>
-  </section>
-
-  <main class="wrap">
-    <!-- 01 RIGHT NOW (js/app.js) -->
-    <section class="sec" aria-labelledby="now-h">
-      <header class="sec-head"><span class="sec-num">01</span><h2 id="now-h">Right now</h2><span class="sec-rule"></span><span class="sec-aside" id="now-aside"></span></header>
-      <div class="now-grid">
-        <article class="hero spot" id="now" aria-live="polite"></article>
-        <figure class="dial-card spot">
-          <div class="dial" id="dial"></div>
-          <figcaption><ol class="dial-legend" id="dial-legend"></ol></figcaption>
-        </figure>
+  <div class="app" id="app" hidden>
+    <header class="topbar wrap">
+      <p class="greeting" id="greeting">Hi</p>
+      <div class="topbar-right">
+        <span class="day-badge" id="day-badge"></span>
+        <span class="clock-date" id="clock-date"></span>
+        <time class="clock" id="clock"><span id="clock-time">--:--</span><span class="clock-ap" id="clock-ap"></span></time>
+        <button class="icon-btn gear" type="button" data-action="settings" aria-label="Settings" title="Settings"><span data-icon="settings"></span></button>
       </div>
+    </header>
+
+    <!-- TITLE + SEARCH + SHORTCUT BUBBLES (js/home.js) -->
+    <section class="launch wrap" aria-label="Search and shortcuts">
+      <h1 class="title" id="title" aria-label="Dannika's world">• ๔คภภเкคร ฬгl๔ •</h1>
+      <form class="search" id="search" action="https://www.google.com/search" method="get" role="search">
+        <span class="search-icon" data-icon="search"></span>
+        <input id="search-input" name="q" type="search" placeholder="Search Google or type a link" aria-label="Search Google or type a link" autocomplete="off" enterkeyhint="search">
+        <kbd class="search-hint" aria-hidden="true">/</kbd>
+      </form>
+      <nav class="bubbles" id="bookmarks" aria-label="Shortcuts"></nav>
     </section>
 
-    <!-- 02 CLASSES -->
-    <section class="sec" aria-labelledby="classes-h">
-      <header class="sec-head"><span class="sec-num">02</span><h2 id="classes-h">Classes</h2><span class="sec-rule"></span><button class="btn ghost sm" type="button" data-canvas=""><span data-icon="book-marked"></span>Canvas pages</button></header>
-      <div class="course-grid" id="course-cards"></div>
-    </section>
-
-    <!-- 03 THIS WEEK + COMING UP + TO-DO -->
-    <section class="sec" aria-labelledby="week-title">
-      <header class="sec-head"><span class="sec-num">03</span><h2 id="week-title">This week</h2><span class="sec-rule"></span></header>
-      <div class="week-layout">
-        <div class="panel week-panel">
-          <div class="wk" id="week"></div>
+    <!-- Sections can be reordered and hidden in edit mode (hold down on a header). Each needs a data-key. -->
+    <main class="wrap">
+      <!-- RIGHT NOW (js/app.js) -->
+      <section class="sec" data-key="now" aria-labelledby="now-h">
+        <header class="sec-head"><span class="sec-num">01</span><h2 id="now-h">Right now</h2><span class="sec-rule"></span><span class="sec-aside" id="now-aside"></span></header>
+        <div class="now-grid">
+          <article class="hero spot" id="now" aria-live="polite"></article>
+          <figure class="dial-card spot">
+            <div class="dial" id="dial"></div>
+            <figcaption><ol class="dial-legend" id="dial-legend"></ol></figcaption>
+          </figure>
         </div>
-        <div class="side">
-          <div class="panel spot">
-            <h3 class="panel-h"><span data-icon="flag"></span>Coming up</h3>
-            <ul class="coming-up" id="coming-up"></ul>
+      </section>
+
+      <!-- CLASSES -->
+      <section class="sec" data-key="classes" aria-labelledby="classes-h">
+        <header class="sec-head"><span class="sec-num">02</span><h2 id="classes-h">Classes</h2><span class="sec-rule"></span><button class="btn ghost sm" type="button" data-canvas=""><span data-icon="book-marked"></span>Canvas pages</button></header>
+        <div class="course-grid" id="course-cards"></div>
+      </section>
+
+      <!-- THIS WEEK + COMING UP + TO-DO -->
+      <section class="sec" data-key="week" aria-labelledby="week-title">
+        <header class="sec-head"><span class="sec-num">03</span><h2 id="week-title">This week</h2><span class="sec-rule"></span></header>
+        <div class="week-layout">
+          <div class="panel week-panel">
+            <div class="wk" id="week"></div>
           </div>
-          <div class="panel spot">
-            <h3 class="panel-h"><span data-icon="list-checks"></span>To-do</h3>
-            <form class="todo-form" id="todo-form" autocomplete="off">
-              <input id="todo-input" type="text" placeholder="Add something" aria-label="New to-do" maxlength="140">
-              <button class="icon-btn solid" type="submit" aria-label="Add to-do"><span data-icon="plus"></span></button>
-            </form>
-            <ul class="todo-list" id="todo-list"></ul>
+          <div class="side">
+            <div class="panel spot" data-key="coming">
+              <h3 class="panel-h"><span data-icon="flag"></span>Coming up</h3>
+              <ul class="coming-up" id="coming-up"></ul>
+            </div>
+            <div class="panel spot" data-key="todo">
+              <h3 class="panel-h"><span data-icon="list-checks"></span>To-do</h3>
+              <form class="todo-form" id="todo-form" autocomplete="off">
+                <input id="todo-input" type="text" placeholder="Add something" aria-label="New to-do" maxlength="140">
+                <button class="icon-btn solid" type="submit" aria-label="Add to-do"><span data-icon="plus"></span></button>
+              </form>
+              <ul class="todo-list" id="todo-list"></ul>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- =====================================================================
-         VIBES — shows + music
-         OWNED BY: the "vibes" LLM. Read LLM_INSTRUCTIONS.md first.
-         - Put content in data/vibes.js, rendering in js/vibes.js, styles in css/vibes.css.
-         - You may change anything INSIDE this <section>. Don't edit outside it.
-         ===================================================================== -->
-    <section class="sec vibes" id="vibes" aria-labelledby="vibes-title">
-      <header class="sec-head"><span class="sec-num">04</span><h2 id="vibes-title">Vibes</h2><span class="sec-rule"></span><span class="sec-aside">Shows &amp; music</span></header>
-      <div class="panel" id="vibes-root"></div>
-    </section>
-    <!-- ======================= END VIBES ================================== -->
-  </main>
+      <!-- NOTES (js/notes.js) -->
+      <section class="sec" data-key="notes" aria-labelledby="notes-h">
+        <header class="sec-head"><span class="sec-num">04</span><h2 id="notes-h">Notes</h2><span class="sec-rule"></span><button class="btn ghost sm" type="button" data-notes-import><span data-icon="apple"></span>Import from Apple Notes</button></header>
+        <div class="notes panel" id="notes">
+          <aside class="notes-side">
+            <div class="notes-top">
+              <label class="notes-search"><span data-icon="search"></span><input id="notes-q" type="search" placeholder="Search notes" aria-label="Search notes" autocomplete="off"></label>
+              <button class="icon-btn solid" type="button" id="note-new" aria-label="New note" title="New note"><span data-icon="square-pen"></span></button>
+            </div>
+            <ul class="notes-list" id="notes-list"></ul>
+          </aside>
+          <div class="notes-main">
+            <div class="notes-bar" role="toolbar" aria-label="Formatting">
+              <button class="icon-btn notes-back" type="button" id="note-back" aria-label="All notes"><span data-icon="arrow-left"></span></button>
+              <button class="icon-btn" type="button" data-cmd="heading" aria-label="Heading" title="Heading"><span data-icon="heading-2"></span></button>
+              <button class="icon-btn" type="button" data-cmd="bold" aria-label="Bold" title="Bold"><span data-icon="bold"></span></button>
+              <button class="icon-btn" type="button" data-cmd="italic" aria-label="Italic" title="Italic"><span data-icon="italic"></span></button>
+              <button class="icon-btn" type="button" data-cmd="checklist" aria-label="Checklist" title="Checklist"><span data-icon="list-todo"></span></button>
+              <button class="icon-btn" type="button" data-cmd="bullets" aria-label="Bulleted list" title="Bulleted list"><span data-icon="list"></span></button>
+              <button class="icon-btn" type="button" data-cmd="numbers" aria-label="Numbered list" title="Numbered list"><span data-icon="list-ordered"></span></button>
+              <span class="notes-status" id="note-status" aria-live="polite"></span>
+              <button class="icon-btn" type="button" id="note-pin" aria-pressed="false" aria-label="Pin note" title="Pin"><span data-icon="pin"></span></button>
+              <button class="icon-btn" type="button" id="note-delete" aria-label="Delete note" title="Delete"><span data-icon="trash-2"></span></button>
+            </div>
+            <div class="note-editor" id="note-editor" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Note" spellcheck="true" data-placeholder="Start typing. The first line becomes the title."></div>
+            <div class="notes-pick"><span data-icon="sticky-note"></span>Pick a note, or start a new one.</div>
+            <div class="notes-empty">
+              <span class="notes-empty-art" data-icon="sticky-note"></span>
+              <b>No notes yet</b>
+              <span>Write one, or bring yours over from Apple Notes.</span>
+              <div class="notes-empty-actions">
+                <button class="btn" type="button" id="note-first"><span data-icon="square-pen"></span>New note</button>
+                <button class="btn ghost" type="button" data-notes-import><span data-icon="apple"></span>Import</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <footer class="foot wrap">
-    <button class="nine" id="nine" type="button" aria-label="999: make it rain shooting stars">999</button>
-    <span class="foot-line">Legends never die</span>
-    <button class="link-btn" type="button" data-action="home-setup">Make this your home page</button>
-  </footer>
+      <!-- =====================================================================
+           VIBES — shows + music
+           OWNED BY: the "vibes" LLM. Read LLM_INSTRUCTIONS.md first.
+           - Put content in data/vibes.js, rendering in js/vibes.js, styles in css/vibes.css.
+           - You may change anything INSIDE this <section>. Don't edit outside it.
+           - Keep data-key="vibes" on the section (edit mode uses it).
+           ===================================================================== -->
+      <section class="sec vibes" id="vibes" data-key="vibes" aria-labelledby="vibes-title">
+        <header class="sec-head"><span class="sec-num">05</span><h2 id="vibes-title">Vibes</h2><span class="sec-rule"></span><span class="sec-aside">Shows &amp; music</span></header>
+        <div class="panel" id="vibes-root"></div>
+      </section>
+      <!-- ======================= END VIBES ================================== -->
+    </main>
+
+    <footer class="foot wrap">
+      <button class="nine" id="nine" type="button" aria-label="999: make it rain shooting stars">999</button>
+      <span class="foot-line">Legends never die</span>
+      <button class="link-btn" type="button" data-action="settings">Settings</button>
+      <span class="foot-tip">Hold down on anything to rearrange</span>
+    </footer>
+  </div>
+
+  <!-- edit mode bar (js/edit.js) -->
+  <div class="edit-bar" id="edit-bar" hidden>
+    <span class="edit-hint"><span data-icon="move"></span>Drag to move · tap <span class="mini-minus" data-icon="minus"></span> to hide</span>
+    <div class="edit-hidden" id="edit-hidden"></div>
+    <button class="btn" type="button" id="edit-done"><span data-icon="check"></span>Done</button>
+  </div>
 
   <!-- "make this your home page" popup (js/home.js) -->
   <dialog class="modal" id="home-dialog" aria-labelledby="home-title">
@@ -166,7 +237,7 @@
     </div>
   </dialog>
 
-  <!-- add / remove shortcut bubbles (js/home.js) -->
+  <!-- add / edit / remove shortcut bubbles (js/home.js) -->
   <dialog class="modal" id="shortcut-dialog" aria-labelledby="shortcut-title">
     <button class="modal-x" type="button" data-close aria-label="Close"><span data-icon="x"></span></button>
     <p class="modal-kicker">Shortcuts</p>
@@ -174,7 +245,7 @@
     <form class="shortcut-form" id="shortcut-form" autocomplete="off">
       <label>Name <input id="sc-name" type="text" required maxlength="24" placeholder="YouTube"></label>
       <label>Link <input id="sc-url" type="text" required placeholder="youtube.com" inputmode="url"></label>
-      <button class="btn" type="submit"><span data-icon="plus"></span>Add shortcut</button>
+      <button class="btn" type="submit"><span data-icon="check"></span><span id="sc-submit-label">Add shortcut</span></button>
     </form>
     <div class="modal-sub-row"><h3 class="modal-sub">On your page</h3><button class="link-btn" type="button" id="sc-restore" hidden>Bring back removed ones</button></div>
     <ul class="sc-list" id="sc-list"></ul>
@@ -196,7 +267,7 @@
       </div>
       <ol class="steps">
         <li>Drag this to your bookmarks bar: <a class="bookmarklet" id="bookmarklet" href="#" title="Drag me to your bookmarks bar"><span data-icon="sparkles"></span>Find my classes</a><small class="hint" id="bookmarklet-hint">Can't see the bar? Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>.</small></li>
-        <li><a href="https://springfieldpublicschools.instructure.com" target="_blank" rel="noopener">Open Canvas</a> and sign in.</li>
+        <li><a id="canvas-open" href="#" target="_blank" rel="noopener">Open Canvas</a> and sign in.</li>
         <li>Click <b>Find my classes</b> in the bookmarks bar. You'll come right back here with your classes matched.</li>
       </ol>
     </section>
@@ -211,17 +282,132 @@
     </form>
   </dialog>
 
-  <!-- plain scripts (no modules) so this also works when opened straight from a folder -->
-  <script src="data/settings.js?v=4"></script>
-  <script src="data/schedule.js?v=4"></script>
-  <script src="data/vibes.js?v=4"></script>
-  <script src="js/icons.js?v=4"></script>
-  <script src="js/core.js?v=4"></script>
-  <script src="js/sky.js?v=4"></script>
-  <script src="js/fx.js?v=4"></script>
-  <script src="js/app.js?v=4"></script>
-  <script src="js/home.js?v=4"></script>
-  <script src="js/canvas.js?v=4"></script>
-  <script src="js/vibes.js?v=4"></script>
+  <!-- bring notes over from Apple Notes (js/notes.js) -->
+  <dialog class="modal modal-wide" id="notes-import" aria-labelledby="ni-title">
+    <button class="modal-x" type="button" data-close aria-label="Close"><span data-icon="x"></span></button>
+    <p class="modal-kicker">Notes</p>
+    <h2 id="ni-title">Bring over your Apple Notes</h2>
+    <p class="modal-lead">Apple keeps Notes inside its own apps, so there are two ways to move them here.</p>
+    <div class="tabs" role="tablist" aria-label="How to import">
+      <button class="tab" type="button" role="tab" data-tab="paste" aria-selected="true"><span data-icon="clipboard-paste"></span>Copy &amp; paste</button>
+      <button class="tab" type="button" role="tab" data-tab="files" aria-selected="false"><span data-icon="file-text"></span>Files</button>
+    </div>
+    <div class="tab-panel" role="tabpanel" data-panel="paste">
+      <ol class="steps">
+        <li>Open a note in Apple Notes.</li>
+        <li>Select all of it. On iPhone, tap and hold the text → <b>Select All</b>. On a Mac, press <kbd>⌘</kbd>+<kbd>A</kbd>.</li>
+        <li>Copy, then paste below. Lists, checklists and bold text come along.</li>
+      </ol>
+      <div class="paste-box" id="ni-paste" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Paste a note here" data-placeholder="Paste a note here"></div>
+      <div class="modal-actions">
+        <span class="hint" id="ni-count" aria-live="polite"></span>
+        <button class="btn" type="button" id="ni-add" disabled><span data-icon="plus"></span>Add note</button>
+      </div>
+    </div>
+    <div class="tab-panel" role="tabpanel" data-panel="files" hidden>
+      <p class="steps-note">Moving lots of notes at once? On a Mac, free apps like <b>Exporter</b> from the Mac App Store save all your Apple Notes as files. Then pick them all here. Text, Markdown and HTML files work.</p>
+      <label class="drop" id="ni-drop">
+        <span data-icon="upload"></span>
+        <b>Choose files</b>
+        <span>or drop them here</span>
+        <input type="file" id="ni-files" multiple accept=".txt,.md,.markdown,.html,.htm,text/plain,text/markdown,text/html">
+      </label>
+    </div>
+  </dialog>
+
+  <!-- SETTINGS (js/settings.js) -->
+  <dialog class="drawer" id="settings" aria-labelledby="settings-title">
+    <div class="drawer-head">
+      <div><p class="modal-kicker">Settings</p><h2 id="settings-title">Make it yours</h2></div>
+      <button class="modal-x" type="button" data-close aria-label="Close"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <section class="set-group">
+        <h3>You</h3>
+        <label class="set-row stack"><span class="set-label">Name in the greeting</span><input class="field" id="set-name" type="text" data-pref="name" maxlength="30" autocomplete="off"></label>
+      </section>
+
+      <section class="set-group">
+        <h3>Look</h3>
+        <div class="set-row stack"><span class="set-label">Color</span><div class="swatches" id="set-swatches"></div></div>
+        <label class="set-row"><span class="set-label">Starfield<small>Live stars behind the page</small></span><input class="switch" type="checkbox" data-pref="sky"></label>
+        <div class="set-row"><span class="set-label">How many stars</span>
+          <div class="seg" data-pref="density"><button type="button" data-value="few">Few</button><button type="button" data-value="some">Some</button><button type="button" data-value="lots">Lots</button></div></div>
+        <label class="set-row"><span class="set-label">Shooting stars</span><input class="switch" type="checkbox" data-pref="shooting"></label>
+        <label class="set-row"><span class="set-label">Glow that follows the mouse</span><input class="switch" type="checkbox" data-pref="glow"></label>
+        <label class="set-row"><span class="set-label">Cards lean toward the mouse</span><input class="switch" type="checkbox" data-pref="tilt"></label>
+        <label class="set-row"><span class="set-label">Daily line under "Right now"</span><input class="switch" type="checkbox" data-pref="quotes"></label>
+        <label class="set-row"><span class="set-label">Calm mode<small>Turns off movement and animations</small></span><input class="switch" type="checkbox" data-pref="calm"></label>
+      </section>
+
+      <section class="set-group">
+        <h3>Layout</h3>
+        <p class="set-note">Hold down on anything on the page to move it or hide it. Everything snaps into place.</p>
+        <button class="btn ghost" type="button" data-set="edit-layout"><span data-icon="move"></span>Edit layout</button>
+        <div class="set-list" id="set-sections"></div>
+        <button class="link-btn" type="button" data-set="reset-layout">Reset layout</button>
+      </section>
+
+      <section class="set-group">
+        <h3>Schedule</h3>
+        <div class="set-row"><span class="set-label">Clock</span>
+          <div class="seg" data-pref="clock24"><button type="button" data-value="false">12-hour</button><button type="button" data-value="true">24-hour</button></div></div>
+        <div class="set-row stack"><span class="set-label">Switch to the next class</span>
+          <div class="seg" data-pref="early"><button type="button" data-value="0">On time</button><button type="button" data-value="5">5 min</button><button type="button" data-value="10">10 min</button><button type="button" data-value="default">15 min</button><button type="button" data-value="20">20 min</button></div></div>
+        <div class="set-row"><span class="set-label">Today</span><span class="set-daytype" id="set-daytype"></span></div>
+        <button class="link-btn" type="button" data-set="unfix" id="set-unfix" hidden>Undo my red/blue fixes</button>
+        <button class="btn ghost" type="button" data-set="canvas"><span data-icon="book-marked"></span>Canvas pages</button>
+      </section>
+
+      <section class="set-group">
+        <h3>Search &amp; shortcuts</h3>
+        <div class="set-row stack"><span class="set-label">Search with</span>
+          <div class="seg" data-pref="engine"><button type="button" data-value="google">Google</button><button type="button" data-value="duckduckgo">DuckDuckGo</button><button type="button" data-value="bing">Bing</button></div></div>
+        <label class="set-row"><span class="set-label">Open shortcuts in a new tab</span><input class="switch" type="checkbox" data-pref="newTab"></label>
+        <div class="set-buttons">
+          <button class="btn ghost" type="button" data-set="shortcuts"><span data-icon="layout-grid"></span>Manage shortcuts</button>
+          <button class="btn ghost" type="button" data-set="home"><span data-icon="house"></span>Home page setup</button>
+        </div>
+      </section>
+
+      <section class="set-group">
+        <h3>Notes</h3>
+        <button class="btn ghost" type="button" data-set="notes-import"><span data-icon="apple"></span>Import from Apple Notes</button>
+      </section>
+
+      <section class="set-group">
+        <h3>Your stuff</h3>
+        <p class="set-note">Everything you do here saves on this device as you go. To move it to another phone or laptop, download a backup here and restore it there.</p>
+        <div class="set-buttons">
+          <button class="btn ghost" type="button" data-set="backup"><span data-icon="download"></span>Download backup</button>
+          <button class="btn ghost" type="button" data-set="restore"><span data-icon="upload"></span>Restore a backup</button>
+        </div>
+        <input type="file" id="set-restore-file" accept=".json,application/json" hidden>
+        <div class="set-confirm" id="set-restore-confirm" hidden>
+          <p id="set-restore-msg"></p>
+          <div class="set-buttons"><button class="btn" type="button" data-set="restore-yes">Restore</button><button class="btn ghost" type="button" data-set="restore-no">Cancel</button></div>
+        </div>
+        <button class="link-btn" type="button" data-set="prefs-reset">Put settings back to how they started</button>
+        <button class="link-btn danger" type="button" data-set="erase">Erase everything on this device</button>
+        <div class="set-confirm danger" id="set-erase-confirm" hidden>
+          <p>This clears your notes, to-dos, shortcuts, Canvas links and settings on this device. It can't be undone.</p>
+          <div class="set-buttons"><button class="btn danger" type="button" data-set="erase-yes">Erase</button><button class="btn ghost" type="button" data-set="erase-no">Cancel</button></div>
+        </div>
+      </section>
+
+      <section class="set-group">
+        <h3>Privacy</h3>
+        <p class="set-note with-icon"><span data-icon="shield-check"></span>This device is unlocked and won't ask for the password again.</p>
+        <button class="btn ghost" type="button" data-set="lock"><span data-icon="lock"></span>Lock this device</button>
+      </section>
+    </div>
+  </dialog>
+
+  <!-- Only these load before unlocking (no private data). js/gate.js loads the rest. -->
+  <script src="js/icons.js?v=5"></script>
+  <script src="js/prefs.js?v=5"></script>
+  <script src="js/sky.js?v=5"></script>
+  <script src="data/private.js?v=5"></script>
+  <script src="js/gate.js?v=5"></script>
 </body>
 </html>

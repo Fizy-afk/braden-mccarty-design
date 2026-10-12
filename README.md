@@ -1,66 +1,39 @@
 # • ๔คภภเкคร ฬгl๔ •
 
-Her hub and Chrome home page. It shows whatever class she's in right now, with that class's resources, and switches automatically through the day. She can tap any class to pull it up instead.
+A private hub and Chrome home page, made as a gift.
 
-## What's on the page
-- **Search + shortcuts:** a Google search bar with round shortcut bubbles under it. Hover a bubble and click × to remove it. **Edit** opens the full list, where she can add, remove, or bring removed ones back.
-- **01 Right now:** the current class with a live countdown and its resource buttons.
-- **Day dial:** today's classes drawn as a dial. Hover or tap a class to see it, or click to pull it up.
-- **02 Classes:** Canvas-style cards with resource bubbles. **Canvas pages** links each class to its own Canvas page.
-- **03 This week:** a calendar of the week, plus "Coming up" (days off, quarter ends) and a to-do list.
-- **04 Vibes:** shows and music. Another LLM handles this, see `LLM_INSTRUCTIONS.md`.
-- **Little extras:**
-  - a live starfield that drifts with the mouse
-  - shooting stars (click the empty sky, or the **999** button in the footer)
-  - cards that tilt toward the cursor
-  - a sparkle when a to-do is checked off
-  - hovering a class lights it up everywhere on the page
+## Privacy
+- **Password:** the page asks for a password once per device. After that, the device remembers it (Settings → Lock this device makes it forget).
+- **Encrypted data:** the personal data (schedule, name, links) is in `data/private.js`, encrypted with AES-256-GCM. The key comes from the password (PBKDF2, 250k rounds). Without the password that file is unreadable, and the password itself isn't stored anywhere in this repo.
+- **Readable source stays off GitHub:** the readable versions of the private data live in a folder that's never uploaded. Its build script makes `data/private.js`.
+- **Device-only data:** notes, to-dos, shortcuts, layout and settings are saved only in the browser on each device. Settings → Download backup / Restore a backup moves them between devices.
 
-## Editing
-| To change... | Edit |
-|---|---|
-| Classes, times, red/blue days, days off, resource links | `data/schedule.js` (set up for Glendale 2026–27) |
-| Her name in the greeting, default shortcut bubbles | `data/settings.js` |
-| Icons | Use names from `js/icons.js` (Lucide). To add one, paste its paths from lucide.dev |
-| The purple | `--wrld` at the top of `css/styles.css` |
-| Shows & music | Handled by another LLM, see `LLM_INSTRUCTIONS.md` |
+## Features
+- **Search and shortcuts:** a search bar (Google, DuckDuckGo or Bing) with shortcut bubbles under it.
+- **Right now:** the current class, with a live countdown, resource buttons and a school-day dial.
+- **Classes:** class cards with resource bubbles. Each one can link to its own Canvas course, either by hand or with the "Find my classes" bookmark.
+- **This week:** a calendar of the week, plus "Coming up" and a to-do list.
+- **Notes:** an Apple Notes-style notes app with checklists. Notes can be imported from Apple Notes by copy/paste or as files.
+- **Settings (gear icon):** name, color, starfield, motion, clock, search engine, which sections show, backup, and locking the device.
+- **Edit mode:** hold down on anything. Items wiggle, sections, cards and shortcuts can be dragged into a new order and snap into place, and the − badge hides something.
+- **Background:** a live starfield, shooting stars, cards that light up and tilt, and a sparkle when a to-do is checked off.
 
 ## Code map
 | File | Job |
 |---|---|
-| `js/core.js` | Schedule engine: red/blue rotation, days off, current class, manual pick, Canvas links |
-| `js/app.js` | Draws the page: right-now card, dial, class cards, week, coming up, to-dos |
+| `js/gate.js` | Password lock, decrypts the private data, then loads everything else |
+| `js/prefs.js` | Settings + layout storage, toasts |
+| `js/core.js` | Schedule engine |
+| `js/app.js` | Right now, dial, class cards, week, coming up, to-dos |
 | `js/home.js` | Search, shortcut bubbles, home-page popup |
-| `js/canvas.js` | Canvas linking and "Find my classes" |
-| `js/sky.js` | Starfield background |
-| `js/fx.js` | Cursor glow on cards, 3D tilt, title wave, sparkle burst |
+| `js/canvas.js` | Canvas links and "Find my classes" |
+| `js/notes.js` | Notes and Apple Notes import |
+| `js/settings.js` | The settings panel, backup / restore |
+| `js/edit.js` | Hold-to-edit mode: wiggle, drag and snap, hide |
+| `js/sky.js`, `js/fx.js` | Starfield, card glow and tilt, title wave, sparkles |
 | `js/icons.js` | Bundled Lucide icons |
+| `data/vibes.js`, `js/vibes.js`, `css/vibes.css` | Shows & music. See `LLM_INSTRUCTIONS.md` |
 
-## How the auto-switch works
-- It uses the time on her phone or laptop.
-- **Red/blue days:** they alternate on every day school is in session. Weekends and the days off in `noSchool` are skipped. That list comes from the official SPS 2026–27 calendar (171 student days).
-- **Fixing a wrong day:** if a day is ever wrong (snow day, etc.), she can tap the red/blue badge at the top to flip it. Every day after it shifts too.
-- **Next school year:** update `rotation`, `noSchool` and `milestones` in `schedule.js` from the new SPS calendar.
-- **Timing:** it switches to a class 15 minutes before it starts (`switchEarlyMinutes` in `schedule.js`).
-- **Manual pick:** when she taps a class, the hub stays on it until the schedule moves to the next slot (a class starting or ending) or she taps "Back to schedule".
-- **Saved per device:** her pick, to-dos, shortcuts and Canvas links are saved in the browser on that device. They don't sync between phone and laptop.
-
-## Canvas pages
-- Each class can link to its own Canvas course. Use **Canvas pages** (in the Classes header), or the **+** bubble on a class card.
-- **Find my classes:** websites can't search a laptop, so instead she drags this button to her bookmarks bar and clicks it while she's on Canvas.
-  - It reads her active course list from Canvas's own API: just course names and numbers.
-  - It comes back to the hub with each class matched. `canvasMatch` in `schedule.js` holds the words it looks for.
-  - She checks the matches and hits Save.
-- **Linking on every device:** to make links work everywhere, add `canvas: "https://…/courses/123"` to a class in `schedule.js`.
-
-## Home page setup
-- **The link:** her home page link is **https://fizy-afk.github.io/dannikas-wrld/?home=1**. A page can't ask Chrome whether it's the home page, so the `?home` part is how the site knows. Opened that way, or as an installed app, the setup popup never shows.
-- **The popup:** opened any other way, a popup with Chrome steps for computer, Android and iPhone shows every time. She can close it ("Maybe later"), turn it off ("Don't ask again"), or bring it back from the footer link.
-- **As an app:** it can be installed as an app (`manifest.webmanifest` + `icons/`), which opens straight to `?home=1`.
-
-## Live site
-**https://fizy-afk.github.io/dannikas-wrld/** is served by GitHub Pages from `main` / root.
-
-To change something, edit the file on GitHub (pencil icon) and commit. The site updates in about a minute. If you change CSS or JS, bump the `?v=` number on its tag in `index.html` so browsers fetch the new copy.
-
-Note: a GitHub Pages site is public to anyone who has the link. `robots.txt` and the page's meta tag tell search engines not to index it, but don't put anything private in `schedule.js`.
+## Updating
+- Push changes to `main`. GitHub Pages republishes in about a minute.
+- When a CSS or JS file changes, bump its `?v=` number. Those are in `index.html` for the files it loads directly, and `VERSION` in `js/gate.js` for the rest, so browsers fetch the new copy.
