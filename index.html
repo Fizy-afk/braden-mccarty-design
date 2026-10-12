@@ -22,8 +22,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Noto+Sans+Thai:wght@600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=6">
-  <link rel="stylesheet" href="css/vibes.css?v=6">
+  <link rel="stylesheet" href="css/styles.css?v=7">
+  <link rel="stylesheet" href="css/vibes.css?v=7">
 </head>
 <body>
   <!-- background: live starfield (js/sky.js) + cursor glow -->
@@ -119,6 +119,7 @@
     <header class="topbar wrap">
       <p class="greeting" id="greeting">Hi</p>
       <div class="topbar-right">
+        <button class="sync-pill" type="button" id="sync-pill" data-action="settings" hidden><span data-icon="cloud"></span><span class="sync-label"></span></button>
         <span class="day-badge" id="day-badge"></span>
         <span class="clock-date" id="clock-date"></span>
         <time class="clock" id="clock"><span id="clock-time">--:--</span><span class="clock-ap" id="clock-ap"></span></time>
@@ -440,6 +441,12 @@
         <button class="btn ghost" type="button" data-set="notes-import"><span data-icon="apple"></span>Import from Apple Notes</button>
       </section>
 
+      <section class="set-group" id="set-sync-group" hidden>
+        <h3>Sync</h3>
+        <div class="sync-row"><span class="sync-state" id="set-sync-state"></span><button class="btn ghost sm" type="button" data-set="sync-now"><span data-icon="refresh-cw"></span>Sync now</button></div>
+        <p class="set-note">Notes, to-dos, shortcuts, layout, settings, Canvas links and Spotify picks are the same on every device you unlock. It's all encrypted with your password before it leaves this device.</p>
+      </section>
+
       <section class="set-group">
         <h3>Your stuff</h3>
         <p class="set-note">Everything you do here saves on this device as you go. To move it to another phone or laptop, download a backup here and restore it there.</p>
@@ -469,10 +476,10 @@
   </dialog>
 
   <!-- Only these load before unlocking (no private data). js/gate.js loads the rest. -->
-  <script src="js/icons.js?v=6"></script>
-  <script src="js/prefs.js?v=6"></script>
-  <script src="js/sky.js?v=6"></script>
-  <script src="data/private.js?v=6"></script>
-  <script src="js/gate.js?v=6"></script>
+  <script src="js/icons.js?v=7"></script>
+  <script src="js/prefs.js?v=7"></script>
+  <script src="js/sky.js?v=7"></script>
+  <script src="data/private.js?v=7"></script>
+  <script src="js/gate.js?v=7"></script>
 </body>
 </html>
