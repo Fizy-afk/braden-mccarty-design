@@ -186,7 +186,7 @@
   // click on empty sky -> shooting star from there
   document.addEventListener("click", (e) => {
     if (!fine || document.body.classList.contains("editing")) return;
-    if (e.target.closest("a, button, input, label, dialog, form, .panel, .hero, .course, .dial-card, .bubbles, .title, .lock, .notes, .drawer")) return;
+    if (e.target.closest("a, button, input, label, dialog, form, .panel, .hero, .course, .dial-card, .bubbles, .title, .lock, .notes, .drawer, .rail, .side-panel")) return;
     shoot(e.clientX, e.clientY);
   });
 

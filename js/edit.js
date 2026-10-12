@@ -71,7 +71,7 @@
     }
     return null;
   }
-  const blocked = (t) => !!t.closest("input, textarea, select, [contenteditable='true'], dialog, .edit-bar, .toast, .lock");
+  const blocked = (t) => !!t.closest("input, textarea, select, [contenteditable='true'], dialog, .edit-bar, .toast, .lock, .rail, .side-panel");
   const isBackground = (t) => t === body || t.matches("main, .wrap, .launch, .sec, .app, .week-layout, .course-grid, .bubbles, .now-grid, .side, .foot, .topbar");
 
   /* ---------- edit mode on / off ---------- */
@@ -201,7 +201,7 @@
 
   /* ---------- in edit mode ---------- */
   function editDown(e) {
-    if (e.target.closest(".edit-x, .edit-bar, .bubble-x, dialog, .toast")) return;
+    if (e.target.closest(".edit-x, .edit-bar, .bubble-x, dialog, .toast, .rail, .side-panel")) return;
     const hit = hitTest(e.target);
     pending = hit
       ? { hit, x: e.clientX, y: e.clientY, t: performance.now(), type: e.pointerType }
@@ -249,7 +249,7 @@
   document.addEventListener("click", (e) => {
     if (swallowClick) { swallowClick = false; e.preventDefault(); e.stopPropagation(); return; }
     if (!on) return;
-    if (e.target.closest(".edit-x, .edit-bar, .bubble-x, dialog, .toast, [data-action='settings']")) return;
+    if (e.target.closest(".edit-x, .edit-bar, .bubble-x, dialog, .toast, .rail, .side-panel, [data-action='settings']")) return;
     if (e.target.closest(".app")) { e.preventDefault(); e.stopPropagation(); }
   }, true);
 

@@ -11,7 +11,7 @@
 (function () {
   "use strict";
 
-  const VERSION = "5";
+  const VERSION = "6";
   const KEY_STORE = "wrld.deviceKey";
   const BOOT = [
     "data/vibes.js",
@@ -22,6 +22,7 @@
     "js/canvas.js",
     "js/notes.js",
     "js/settings.js",
+    "js/sidebar.js",
     "js/edit.js",
     "js/vibes.js"
   ];
