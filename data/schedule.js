@@ -17,6 +17,12 @@
    - Times are 24-hour "HH:MM". Days: mon tue wed thu fri.
    - Each class has `rotation: "red"` or `"blue"`. Leave it out for every day.
    - Resources are the buttons on the class card: { label, url, icon }.
+   - icon / resource icons are names from js/icons.js (Lucide), e.g. "book-open".
+   - canvas: link to the class's own Canvas page (works on every device). She can
+     also link pages from the site itself (saved per device).
+   - abbr: tiny name for the narrow week view on phones.
+   - canvasMatch: words that appear in the class's Canvas course name, used by
+     "Find my classes" to match courses automatically.
    ============================================================================ */
 
 window.WRLD_SCHEDULE = {
@@ -49,7 +55,7 @@ window.WRLD_SCHEDULE = {
     { date: "2026-10-22", label: "end of quarter 1" },
     { date: "2026-12-18", label: "end of quarter 2 + semester 1" },
     { date: "2027-03-12", label: "end of quarter 3" },
-    { date: "2027-05-27", label: "last day of school 🎓" }
+    { date: "2027-05-27", label: "last day of school" }
   ],
 
   classes: [
@@ -57,27 +63,31 @@ window.WRLD_SCHEDULE = {
       id: "alg2",
       name: "Algebra II",
       short: "Algebra II",
-      emoji: "📐",
+      abbr: "Alg 2",
+      icon: "sigma",
       color: "#b48ef0",
       period: 1,
+      canvasMatch: ["algebra"],
       rotation: "red",
       meetings: [
         { days: ["mon", "tue", "thu", "fri"], start: "08:10", end: "09:35" },
         { days: ["wed"], start: "08:40", end: "10:10" }
       ],
       resources: [
-        { label: "Canvas", url: "https://springfieldpublicschools.instructure.com", icon: "📚" },
-        { label: "Desmos calculator", url: "https://www.desmos.com/calculator", icon: "🧮" },
-        { label: "Khan Academy", url: "https://www.khanacademy.org/math/algebra2", icon: "🎓" }
+        { label: "Canvas", url: "https://springfieldpublicschools.instructure.com", icon: "book-marked" },
+        { label: "Desmos calculator", url: "https://www.desmos.com/calculator", icon: "calculator" },
+        { label: "Khan Academy", url: "https://www.khanacademy.org/math/algebra2", icon: "graduation-cap" }
       ]
     },
     {
       id: "forensics",
       name: "Forensics II",
       short: "Forensics",
-      emoji: "🔬",
+      abbr: "Forens",
+      icon: "fingerprint",
       color: "#9de0c8",
       period: 2,
+      canvasMatch: ["forensic"],
       rotation: "blue",
       notes: "SCI Research & Design: Forensics II",
       meetings: [
@@ -85,47 +95,51 @@ window.WRLD_SCHEDULE = {
         { days: ["wed"], start: "08:40", end: "10:10" }
       ],
       resources: [
-        { label: "Canvas", url: "https://springfieldpublicschools.instructure.com", icon: "📚" },
-        { label: "lab notes", url: "https://drive.google.com", icon: "🧪" },
-        { label: "flashcards", url: "https://quizlet.com", icon: "🃏" }
+        { label: "Canvas", url: "https://springfieldpublicschools.instructure.com", icon: "book-marked" },
+        { label: "lab notes", url: "https://drive.google.com", icon: "flask-conical" },
+        { label: "flashcards", url: "https://quizlet.com", icon: "layers" }
       ]
     },
     {
       id: "aplit",
       name: "AP English Literature",
       short: "AP Lit",
-      emoji: "📖",
+      abbr: "Lit",
+      icon: "book-open",
       color: "#f4a7d8",
       period: 3,
+      canvasMatch: ["literature", "english lit", "ap lit"],
       rotation: "red",
       meetings: [
         { days: ["mon", "tue", "thu", "fri"], start: "09:40", end: "11:08" },
         { days: ["wed"], start: "10:10", end: "11:40" }
       ],
       resources: [
-        { label: "Canvas", url: "https://springfieldpublicschools.instructure.com", icon: "📚" },
-        { label: "AP Classroom", url: "https://apclassroom.collegeboard.org", icon: "🅰️" },
-        { label: "LitCharts", url: "https://www.litcharts.com", icon: "🔖" },
-        { label: "Purdue OWL", url: "https://owl.purdue.edu/owl/", icon: "✍️" }
+        { label: "Canvas", url: "https://springfieldpublicschools.instructure.com", icon: "book-marked" },
+        { label: "AP Classroom", url: "https://apclassroom.collegeboard.org", icon: "award" },
+        { label: "LitCharts", url: "https://www.litcharts.com", icon: "bookmark" },
+        { label: "Purdue OWL", url: "https://owl.purdue.edu/owl/", icon: "pen-line" }
       ]
     },
     {
       id: "apgov",
       name: "AP Government",
       short: "AP Gov",
-      emoji: "🏛️",
+      abbr: "Gov",
+      icon: "landmark",
       color: "#8fb8f7",
       period: 4,
+      canvasMatch: ["government", "gov"],
       rotation: "blue",
       meetings: [
         { days: ["mon", "tue", "thu", "fri"], start: "09:40", end: "11:08" },
         { days: ["wed"], start: "10:10", end: "11:40" }
       ],
       resources: [
-        { label: "Canvas", url: "https://springfieldpublicschools.instructure.com", icon: "📚" },
-        { label: "AP Classroom", url: "https://apclassroom.collegeboard.org", icon: "🅰️" },
-        { label: "AP Gov course page", url: "https://apstudents.collegeboard.org/courses/ap-united-states-government-and-politics", icon: "🏛️" },
-        { label: "Khan Academy", url: "https://www.khanacademy.org/humanities/ap-us-government-and-politics", icon: "🎓" }
+        { label: "Canvas", url: "https://springfieldpublicschools.instructure.com", icon: "book-marked" },
+        { label: "AP Classroom", url: "https://apclassroom.collegeboard.org", icon: "award" },
+        { label: "AP Gov course page", url: "https://apstudents.collegeboard.org/courses/ap-united-states-government-and-politics", icon: "landmark" },
+        { label: "Khan Academy", url: "https://www.khanacademy.org/humanities/ap-us-government-and-politics", icon: "graduation-cap" }
       ]
     },
 
@@ -136,7 +150,8 @@ window.WRLD_SCHEDULE = {
       id: "otc-red",
       name: "Ozarks Tech · periods 5 & 7",
       short: "OTC 5/7",
-      emoji: "🦅",
+      abbr: "OTC",
+      icon: "graduation-cap",
       color: "#f7c98f",
       period: 5,
       rotation: "red",
@@ -145,16 +160,17 @@ window.WRLD_SCHEDULE = {
         { days: ["wed"], start: "11:45", end: "15:00" }
       ],
       resources: [
-        { label: "MyOTC", url: "https://ozarkstech.edu/myotc", icon: "🦅" },
-        { label: "OTC library", url: "https://ozarkstech.edu/student-life/academic-support/library/", icon: "📚" },
-        { label: "OTC calendar", url: "https://ozarkstech.edu/student-life/get-involved/calendar/", icon: "📅" }
+        { label: "MyOTC", url: "https://ozarkstech.edu/myotc", icon: "user-round" },
+        { label: "OTC library", url: "https://ozarkstech.edu/student-life/academic-support/library/", icon: "library" },
+        { label: "OTC calendar", url: "https://ozarkstech.edu/student-life/get-involved/calendar/", icon: "calendar-days" }
       ]
     },
     {
       id: "otc-blue",
       name: "Ozarks Tech · periods 6 & 8",
       short: "OTC 6/8",
-      emoji: "🦅",
+      abbr: "OTC",
+      icon: "graduation-cap",
       color: "#f7c98f",
       period: 6,
       rotation: "blue",
@@ -163,9 +179,9 @@ window.WRLD_SCHEDULE = {
         { days: ["wed"], start: "11:45", end: "15:00" }
       ],
       resources: [
-        { label: "MyOTC", url: "https://ozarkstech.edu/myotc", icon: "🦅" },
-        { label: "OTC library", url: "https://ozarkstech.edu/student-life/academic-support/library/", icon: "📚" },
-        { label: "OTC calendar", url: "https://ozarkstech.edu/student-life/get-involved/calendar/", icon: "📅" }
+        { label: "MyOTC", url: "https://ozarkstech.edu/myotc", icon: "user-round" },
+        { label: "OTC library", url: "https://ozarkstech.edu/student-life/academic-support/library/", icon: "library" },
+        { label: "OTC calendar", url: "https://ozarkstech.edu/student-life/get-involved/calendar/", icon: "calendar-days" }
       ]
     }
   ]
