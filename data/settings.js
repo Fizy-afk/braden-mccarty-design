@@ -1,6 +1,9 @@
 /* ============================================================================
-   HUB SETTINGS: her name for the greeting + the quick links grid.
-   Links: { label, url, icon }. The icon can be any emoji.
+   HUB SETTINGS: her name for the greeting + the round shortcut bubbles under
+   the search bar.
+   Links: { label, url, icon }. Each bubble shows the site's real icon. The emoji
+   is the backup if the site doesn't have one. Add `favicon: false` to always use
+   the emoji. She can add her own bubbles with the "+" bubble (saved per device).
    ============================================================================ */
 
 window.WRLD_SETTINGS = {
