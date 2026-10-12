@@ -322,12 +322,32 @@
       resourcesHtml(cls);
   }
 
-  function renderChips(activeId) {
-    $("#class-chips").innerHTML = classes.map((cls) =>
-      '<button class="chip" type="button" data-pick="' + esc(cls.id) + '" style="--c:' + esc(colorOf(cls)) + '" aria-pressed="' + (cls.id === activeId) + '">' +
-      '<span aria-hidden="true">' + esc(cls.emoji || "✿") + "</span> " + esc(cls.short || cls.name) +
-      (cls.rotation ? typeDot(cls.rotation) : "") + "</button>"
-    ).join("");
+  // Canvas-style class cards: tap the card to pull the class up top,
+  // tap a bubble underneath to open that resource.
+  function renderCourses(now, activeId, activeTag) {
+    $("#course-cards").innerHTML = classes.map((cls) => {
+      const active = cls.id === activeId;
+      const nx = nextSession(now, cls.id);
+      const sub = [
+        cls.period ? "period " + esc(cls.period) : "",
+        cls.rotation && DAY_TYPES[cls.rotation] ? DAY_TYPES[cls.rotation].label + "s" : ""
+      ].filter(Boolean).join(" · ");
+      const tag = active && activeTag
+        ? '<span class="course-tag">' + activeTag + "</span>"
+        : cls.rotation && DAY_TYPES[cls.rotation] ? '<span class="course-tag">' + typeDot(cls.rotation) + DAY_TYPES[cls.rotation].label + "</span>" : "";
+
+      return '<article class="course' + (active ? " active" : "") + '" style="--c:' + esc(colorOf(cls)) + '">' +
+        '<button class="course-main" type="button" data-pick="' + esc(cls.id) + '" aria-pressed="' + active + '">' +
+        '<span class="course-hero">' + tag + '<span class="course-em" aria-hidden="true">' + esc(cls.emoji || "✿") + "</span></span>" +
+        '<span class="course-text"><span class="course-name">' + esc(cls.name) + "</span>" +
+        (sub ? '<span class="course-sub">' + sub + "</span>" : "") +
+        (nx ? '<span class="course-next">next: ' + whenText(nx) + "</span>" : "") +
+        "</span></button>" +
+        '<div class="course-bubbles">' + (cls.resources || []).map((r) =>
+          '<a class="mini" href="' + esc(r.url || "#") + '" target="_blank" rel="noopener" aria-label="' + esc(r.label) + '" data-tip="' + esc(r.label) + '">' +
+          '<span aria-hidden="true">' + esc(r.icon || "↗") + "</span></a>"
+        ).join("") + "</div></article>";
+    }).join("");
   }
 
   function renderToday(now, activeId) {
@@ -405,13 +425,6 @@
       : "";
   }
 
-  function renderLinks() {
-    $("#links").innerHTML = (settings.links || []).map((l) =>
-      '<a class="link" href="' + esc(l.url) + '" target="_blank" rel="noopener">' +
-      '<span aria-hidden="true">' + esc(l.icon || "↗") + "</span>" + esc(l.label) + "</a>"
-    ).join("");
-  }
-
   /* ---------- to-dos (saved on this device) ---------- */
   let todos = store.get(TODO_KEY, []);
 
@@ -452,9 +465,10 @@
     const auto = autoPick(now);
     const picked = getOverride(now, auto);
     const activeId = picked ? picked.id : auto.cls ? auto.cls.id : null;
+    const activeTag = picked ? "✿ picked" : auto.state === "in" ? "● now" : auto.state === "soon" ? "up next" : "";
     renderDayBadge(now);
     renderNow(now, auto, picked);
-    renderChips(activeId);
+    renderCourses(now, activeId, activeTag);
     renderToday(now, activeId);
     renderWeek(now);
   }
@@ -492,7 +506,6 @@
   classes.forEach((c) => { if (!c.id) console.warn("[wrld] a class in data/schedule.js is missing an id:", c); });
   updateClock();
   render();
-  renderLinks();
   renderTodos();
   setInterval(updateClock, 1000);
   setInterval(render, 15000);
