@@ -10,7 +10,13 @@
   const schedule = window.WRLD_SCHEDULE || {};
   const classes = schedule.classes || [];
   const rotation = schedule.rotation || null;
-  const EARLY = typeof schedule.switchEarlyMinutes === "number" ? schedule.switchEarlyMinutes : 15;
+  const P = window.WRLD_PREFS;
+  // how many minutes before a class the page switches to it (Settings can change it)
+  const early = () => {
+    const v = P && P.get("early");
+    if (typeof v === "number") return v;
+    return typeof schedule.switchEarlyMinutes === "number" ? schedule.switchEarlyMinutes : 15;
+  };
 
   const DAY_KEYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -50,6 +56,7 @@
   function fmtClock(min, withPeriod) {
     let h = Math.floor(min / 60) % 24;
     const m = Math.floor(min % 60);
+    if (P && P.get("clock24")) return pad(h) + ":" + pad(m);
     const ap = h >= 12 ? "PM" : "AM";
     h = h % 12 || 12;
     return h + ":" + pad(m) + (withPeriod === false ? "" : " " + ap);
@@ -120,6 +127,12 @@
     return type;
   }
 
+  function resetRotationFix() {
+    store.del(ROTATION_FIX_KEY);
+    typeCache = new Map();
+  }
+  const hasRotationFix = () => !!store.get(ROTATION_FIX_KEY, null);
+
   function flipToday() {
     const today = new Date();
     const t = dayType(today);
@@ -179,7 +192,7 @@
     const t = minutesNow(now);
     const current = today.find((s) => t >= s.start && t < s.end);
     if (current) return { cls: current.cls, session: current, state: "in" };
-    const soon = today.find((s) => s.start > t && s.start - t <= EARLY);
+    const soon = today.find((s) => s.start > t && s.start - t <= early());
     if (soon) return { cls: soon.cls, session: soon, state: "soon" };
     return { cls: null, session: null, state: "free", next: nextSession(now) };
   }
@@ -233,7 +246,7 @@
     DAY_NAMES, MONTHS, DAY_TYPES,
     toMin, minutesNow, ymd, parseYmd, addDays, daysBetween, shortDate,
     fmtClock, fmtDuration, fmtCountdown, colorOf,
-    offReason, dayType, otherType, flipToday,
+    offReason, dayType, otherType, flipToday, resetRotationFix, hasRotationFix, early,
     sessionsOn, nextSession, nextSchoolDay, whenText, dayWord,
     autoPick, snapshot, setOverride,
     canvasLinks, canvasLink, setCanvasLinks

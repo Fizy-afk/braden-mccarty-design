@@ -14,6 +14,10 @@
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fine = window.matchMedia("(pointer: fine)").matches;
 
+  // Settings: starfield on/off, shooting stars, how many stars, calm mode
+  const pref = (k) => (window.WRLD_PREFS ? window.WRLD_PREFS.get(k) : { sky: true, shooting: true, density: "some", calm: false }[k]);
+  const animating = () => !reduce && pref("sky") && !pref("calm");
+
   const TINTS = ["255,255,255", "236,226,255", "246,214,238", "206,220,255"];
   let W = 0, H = 0;
   let stars = [];
@@ -52,7 +56,8 @@
     canvas.style.width = W + "px"; canvas.style.height = H + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    const count = Math.round(Math.min(280, (W * H) / 4800));
+    const amount = { few: 0.45, some: 1, lots: 1.8 }[pref("density")] || 1;
+    const count = Math.round(Math.min(460, ((W * H) / 4800) * amount));
     stars = [];
     for (let i = 0; i < count; i++) {
       const z = Math.pow(Math.random(), 1.8); // most stars far away
@@ -66,7 +71,7 @@
         tint: TINTS[(Math.random() * TINTS.length) | 0]
       });
     }
-    if (reduce) draw(performance.now());
+    if (!animating()) draw(performance.now());
   }
 
   const wrap = (v, max) => ((v % max) + max) % max;
@@ -75,6 +80,8 @@
     const dt = Math.min(48, t - last) / 16.67;
     last = t;
     ctx.clearRect(0, 0, W, H);
+    if (!pref("sky")) return;
+    const still = !animating();
 
     mouse.x += (mouse.tx - mouse.x) * 0.05 * dt;
     mouse.y += (mouse.ty - mouse.y) * 0.05 * dt;
@@ -82,7 +89,7 @@
     for (const s of stars) {
       const x = wrap(s.x - mouse.x * 26 * s.z, W);
       const y = wrap(s.y - mouse.y * 16 * s.z - scroll * 0.08 * s.z, H);
-      const twinkle = reduce ? 0.8 : 0.55 + 0.45 * Math.sin(t * 0.001 * s.speed + s.phase);
+      const twinkle = still ? 0.8 : 0.55 + 0.45 * Math.sin(t * 0.001 * s.speed + s.phase);
       ctx.globalAlpha = twinkle * (0.3 + 0.7 * s.z);
       ctx.fillStyle = "rgb(" + s.tint + ")";
       ctx.beginPath();
@@ -125,13 +132,13 @@
     ctx.globalAlpha = 1;
 
     if (t > nextShot) {
-      shoot();
+      if (pref("shooting")) shoot();
       nextShot = t + 6000 + Math.random() * 9000;
     }
   }
 
   function shoot(x, y) {
-    if (reduce) return;
+    if (!animating()) return;
     const leftward = x == null ? Math.random() < 0.5 : x > W / 2;
     const angle = (leftward ? 200 : -20) + (Math.random() * 30 - 15);
     const rad = (angle * Math.PI) / 180;
@@ -149,27 +156,42 @@
   }
 
   function shower(count) {
-    if (reduce) return;
+    if (!animating()) return;
     const n = count || 12;
     for (let i = 0; i < n; i++) setTimeout(() => shoot(), i * 140 + Math.random() * 120);
   }
 
+  // the loop only runs while there's something moving; it restarts when Settings change
+  let running = false;
   function loop(t) {
+    if (!animating()) { running = false; draw(t); return; }
     draw(t);
+    requestAnimationFrame(loop);
+  }
+  function start() {
+    if (running || !animating()) { if (!animating()) draw(performance.now()); return; }
+    running = true;
+    last = performance.now();
     requestAnimationFrame(loop);
   }
 
   window.addEventListener("resize", resize);
-  window.addEventListener("scroll", () => { scroll = window.scrollY; if (reduce) draw(performance.now()); }, { passive: true });
+  window.addEventListener("scroll", () => { scroll = window.scrollY; if (!running) draw(performance.now()); }, { passive: true });
+  window.addEventListener("wrld:prefs", (e) => {
+    const k = e.detail && e.detail.key;
+    if (k === "density" || k === "*") resize();
+    start();
+  });
 
   // click on empty sky -> shooting star from there
   document.addEventListener("click", (e) => {
-    if (!fine || e.target.closest("a, button, input, label, dialog, form, .panel, .hero, .course, .dial-card, .bubbles, .title")) return;
+    if (!fine || document.body.classList.contains("editing")) return;
+    if (e.target.closest("a, button, input, label, dialog, form, .panel, .hero, .course, .dial-card, .bubbles, .title, .lock, .notes, .drawer")) return;
     shoot(e.clientX, e.clientY);
   });
 
   resize();
-  if (!reduce) requestAnimationFrame(loop);
+  start();
 
   window.WRLD_SKY = { shoot, shower };
 })();

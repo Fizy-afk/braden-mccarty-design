@@ -15,6 +15,9 @@
   const $ = (sel) => document.querySelector(sel);
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const TODO_KEY = "wrld.todos";
+  const P = window.WRLD_PREFS;
+  const herName = () => (P.get("name") || settings.herName || "").trim();
+  const editing = () => document.body.classList.contains("editing");
 
   const LINES = [
     "One class at a time.",
@@ -53,9 +56,9 @@
 
   function renderClock(now) {
     $("#clock-time").textContent = W.fmtClock(W.minutesNow(now), false);
-    $("#clock-ap").textContent = now.getHours() >= 12 ? "PM" : "AM";
+    $("#clock-ap").textContent = P.get("clock24") ? "" : now.getHours() >= 12 ? "PM" : "AM";
     $("#clock-date").textContent = now.toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" });
-    setHTML($("#greeting"), greeting(now.getHours()) + (settings.herName ? ", <em>" + esc(settings.herName) + "</em>" : ""));
+    setHTML($("#greeting"), greeting(now.getHours()) + (herName() ? ", <em>" + esc(herName()) + "</em>" : ""));
   }
 
   function renderDayBadge(now) {
@@ -133,7 +136,7 @@
         body +
         (nx ? '<div class="hero-actions"><button class="btn" type="button" data-pick="' + esc(nx.cls.id) + '">' + clsIcon(nx.cls) +
           "Open " + esc(shortName(nx.cls)) + " now" + icon("arrow-right") + "</button></div>" : "") +
-        '<p class="quote">' + esc(LINES[now.getDate() % LINES.length]) + "</p></div>";
+        (P.get("quotes") ? '<p class="quote">' + esc(LINES[now.getDate() % LINES.length]) + "</p>" : "") + "</div>";
     }
 
     const session = picked ? null : auto.session;
@@ -274,15 +277,17 @@
   }
 
   /* =========================== class cards =========================== */
-  function renderCourses(snap) {
-    setHTML($("#course-cards"), classes.map((cls) => {
+  function renderCourses(snap, force) {
+    if (editing() && !force) return; // don't reshuffle cards while she's moving them
+    const visible = P.layout.sort("courses", classes.filter((c) => !P.layout.isHidden("courses", c.id)), (c) => c.id);
+    setHTML($("#course-cards"), visible.map((cls) => {
       const active = cls.id === snap.activeId;
       const nx = W.nextSession(snap.now, cls.id);
       const tag = active && snap.tag
         ? '<span class="course-tag">' + (snap.tag === "Now" ? "<i></i>" : "") + snap.tag + "</span>" : "";
       const rot = cls.rotation && DAY_TYPES[cls.rotation]
         ? '<span class="course-meta"><i class="dot" style="--d:' + DAY_TYPES[cls.rotation].color + '"></i>' + DAY_TYPES[cls.rotation].label + "s</span>" : "";
-      return '<article class="course spot tilt' + (active ? " active" : "") + '" style="--c:' + esc(W.colorOf(cls)) + '" data-cid="' + esc(cls.id) + '">' +
+      return '<article class="course spot tilt' + (active ? " active" : "") + '" style="--c:' + esc(W.colorOf(cls)) + '" data-cid="' + esc(cls.id) + '" data-key="' + esc(cls.id) + '">' +
         '<button class="course-main" type="button" data-pick="' + esc(cls.id) + '" aria-pressed="' + active + '">' +
         '<span class="course-art">' +
         (cls.period ? '<span class="course-period">P' + esc(cls.period) + "</span>" : "") + tag +
@@ -451,11 +456,11 @@
 
   /* =========================== render loop =========================== */
   let lastKey = "";
-  function renderAll(snap) {
+  function renderAll(snap, forceCourses) {
     renderDayBadge(snap.now);
     renderHero(snap);
     renderDial(snap);
-    renderCourses(snap);
+    renderCourses(snap, forceCourses);
     renderWeek(snap);
     renderComingUp(snap.now);
     const today = W.sessionsOn(snap.now);
@@ -463,12 +468,12 @@
     setHL(hlId, true);
   }
 
-  function tick(force) {
+  function tick(force, forceCourses) {
     const now = new Date();
     const snap = W.snapshot(now);
     renderClock(now);
     const key = W.ymd(now) + "|" + Math.floor(W.minutesNow(now)) + "|" + snap.activeId + "|" + snap.tag;
-    if (force || key !== lastKey) { lastKey = key; renderAll(snap); }
+    if (force || key !== lastKey) { lastKey = key; renderAll(snap, forceCourses); }
     updateLive(snap);
   }
 
@@ -530,6 +535,11 @@
 
   document.addEventListener("visibilitychange", () => { if (!document.hidden) tick(true); });
   window.addEventListener("wrld:canvas", () => tick(true));
+  window.addEventListener("wrld:prefs", () => tick(true));
+  window.addEventListener("wrld:layout", () => tick(true));
+  window.addEventListener("wrld:edit", () => tick(true));
+  window.addEventListener("wrld:refresh", () => tick(true));
+  window.WRLD_APP = { refresh: (forceCourses) => tick(true, forceCourses) };
 
   /* =========================== go =========================== */
   tick(true);

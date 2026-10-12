@@ -48,6 +48,10 @@
     $("#bookmarklet-hint").textContent = "Drag it up to your bookmarks bar, don't click it here.";
   });
 
+  // "Open Canvas" goes to her school's Canvas (from the private data, not hard-coded)
+  const canvasHome = ((window.WRLD_SETTINGS || {}).links || []).find((l) => /canvas/i.test(l.label));
+  if (canvasHome) $("#canvas-open").href = canvasHome.url;
+
   /* ---------- reading what the bookmark sent back ---------- */
   function readFound() {
     const h = location.hash;
@@ -175,6 +179,12 @@
     const trigger = e.target.closest("[data-canvas]");
     if (trigger) open(trigger.getAttribute("data-canvas"));
   });
+
+  // in edit mode, tapping a class card opens its Canvas link to change
+  document.addEventListener("wrld:edit-tap", (e) => {
+    if (e.detail && e.detail.zone === "courses") open(e.detail.key);
+  });
+  window.WRLD_CANVAS = { open };
 
   /* ---------- coming back from "Find my classes" ---------- */
   const found = readFound();
