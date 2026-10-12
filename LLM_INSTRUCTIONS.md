@@ -17,12 +17,13 @@ You are building the **shows + music** section of **• ๔คภภเкคร 
 | `index.html`, only between `VIBES` and `END VIBES` | You may change the markup inside `<section id="vibes">`. |
 
 ## Files you must NOT edit
-`css/styles.css`, `js/app.js`, `data/schedule.js`, `data/settings.js`, and everything in `index.html` outside the VIBES block. These run the class-schedule hub.
+`css/styles.css`, `js/app.js`, `js/home.js`, `data/schedule.js`, `data/settings.js`, `manifest.webmanifest`, `icons/`, and everything in `index.html` outside the VIBES block. These run the class-schedule hub, the Google search bar, the shortcut bubbles, and the home-page popup.
 
 Also avoid:
-- Global CSS selectors (`body`, `h2`, `a`, `.card` without `.vibes` in front)
+- Global CSS selectors (`body`, `h2`, `a`, `.card`, `.bubble`, `.course`, `.modal` without `.vibes` in front)
 - Global JS variables. Keep your code inside the existing IIFE in `js/vibes.js`.
-- Element IDs that clash with the hub: `now`, `class-chips`, `today-list`, `links`, `todo-*`, `week`, `greeting`, `clock-*`
+- Element IDs that clash with the hub: `now`, `course-cards`, `today-list`, `todo-*`, `week`, `coming-up`, `greeting`, `clock-*`, `day-badge`, `search`, `search-input`, `bookmarks`, `home-*`, `shortcut-*`, `sc-*`
+- Extra `<dialog>` popups or anything that opens on page load. The hub already has a setup popup.
 
 ## Design tokens you can use (from css/styles.css)
 ```

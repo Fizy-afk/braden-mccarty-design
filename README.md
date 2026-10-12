@@ -6,7 +6,7 @@ Her hub. It shows whatever class she's in right now, with that class's resources
 | To change... | Edit |
 |---|---|
 | Classes, times, red/blue days, days off, resource links | `data/schedule.js` (set up for Glendale 2026–27) |
-| Her name in the greeting, quick links | `data/settings.js` |
+| Her name in the greeting, default shortcut bubbles | `data/settings.js` |
 | The purple | `--wrld` at the top of `css/styles.css` |
 | Shows & music | Handled by another LLM, see `LLM_INSTRUCTIONS.md` |
 
@@ -18,6 +18,12 @@ Her hub. It shows whatever class she's in right now, with that class's resources
 - Between classes it shows "free time" with what's next, and a button to open that class's stuff early.
 - When she taps a class, the hub stays on it until the schedule moves to the next slot (a class starting or ending) or she taps "back to schedule".
 - Her pick and her to-do list are saved in the browser on that device. They don't sync between phone and laptop.
+
+## Home page setup
+- It's built to be her Chrome home page: a Google search bar with round shortcut bubbles under it, like a new tab. She can add her own bubbles with "+". Those are saved per device.
+- Her home page link is **https://fizy-afk.github.io/dannikas-wrld/?home=1**. A page can't ask Chrome whether it's the home page, so the `?home` part is how the site knows. Opened that way, or as an installed app, the setup popup never shows.
+- Opened any other way, a popup with Chrome steps for computer, Android and iPhone shows every time. She can close it ("maybe later"), turn it off ("don't ask again"), or bring it back from the footer link.
+- It can be installed as an app (`manifest.webmanifest` + `icons/`), which opens straight to `?home=1`.
 
 ## Live site
 **https://fizy-afk.github.io/dannikas-wrld/** is served by GitHub Pages from `main` / root.

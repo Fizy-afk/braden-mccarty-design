@@ -10,6 +10,14 @@
   <meta name="theme-color" content="#150e26">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23b48ef0'/%3E%3Ctext x='32' y='40' font-size='22' text-anchor='middle' font-family='sans-serif' font-weight='700' fill='%23150e26'%3E999%3C/text%3E%3C/svg%3E">
 
+  <!-- installable as an app (opens at ?home=1, so it counts as her home page) -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-title" content="๔คภภเкคร ฬгl๔">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@500;700&display=swap" rel="stylesheet">
@@ -32,24 +40,30 @@
     </div>
   </header>
 
+  <!-- SEARCH + SHORTCUT BUBBLES: js/home.js (defaults in data/settings.js) -->
+  <section class="launch wrap" aria-label="search and shortcuts">
+    <form class="search" id="search" action="https://www.google.com/search" method="get" role="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <input id="search-input" name="q" type="search" placeholder="search google or type a link" aria-label="search google or type a link" autocomplete="off" enterkeyhint="search">
+      <kbd class="search-hint" aria-hidden="true">/</kbd>
+    </form>
+    <nav class="bubbles" id="bookmarks" aria-label="shortcuts"></nav>
+  </section>
+
   <main class="wrap">
     <!-- RIGHT NOW: filled in by js/app.js from data/schedule.js -->
     <section class="now card" id="now" aria-live="polite"></section>
 
-    <nav class="switcher" aria-label="switch class">
-      <p class="label">switch class</p>
-      <div class="chips" id="class-chips"></div>
-    </nav>
+    <!-- MY CLASSES: Canvas-style cards with resource bubbles (js/app.js) -->
+    <section class="courses" aria-labelledby="courses-title">
+      <h2 class="section-label" id="courses-title">my classes</h2>
+      <div class="course-grid" id="course-cards"></div>
+    </section>
 
     <div class="grid">
       <section class="card" aria-labelledby="today-title">
         <h2 id="today-title">today</h2>
         <ol class="timeline" id="today-list"></ol>
-      </section>
-
-      <section class="card" aria-labelledby="links-title">
-        <h2 id="links-title">quick links</h2>
-        <div class="links" id="links"></div>
       </section>
 
       <section class="card" aria-labelledby="todo-title">
@@ -61,7 +75,7 @@
         <ul class="todo-list" id="todo-list"></ul>
       </section>
 
-      <section class="card" aria-labelledby="week-title">
+      <section class="card span-all" aria-labelledby="week-title">
         <h2 id="week-title">this week</h2>
         <div class="week-grid" id="week"></div>
         <ul class="coming-up" id="coming-up" aria-label="coming up"></ul>
@@ -84,13 +98,81 @@
   <footer class="foot">
     <span class="nine">999</span>
     <span>legends never die ✿ made with love, just for you</span>
+    <button class="link-btn" type="button" data-action="home-setup">make this your home page</button>
   </footer>
+
+  <!-- "make this your home page" popup (js/home.js) -->
+  <dialog class="modal" id="home-dialog" aria-labelledby="home-title">
+    <button class="modal-x" type="button" data-close aria-label="close">×</button>
+    <p class="modal-kicker">✿ quick setup</p>
+    <h2 id="home-title">make this your home page</h2>
+    <p class="modal-lead">so your classes are the first thing you see every time you open chrome.</p>
+
+    <div class="copy-row">
+      <input id="home-url" type="text" readonly aria-label="your home page link">
+      <button class="btn" type="button" id="copy-home">copy link</button>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="your device">
+      <button class="tab" type="button" role="tab" data-tab="computer" aria-controls="panel-computer">💻 computer</button>
+      <button class="tab" type="button" role="tab" data-tab="android" aria-controls="panel-android">🤖 android</button>
+      <button class="tab" type="button" role="tab" data-tab="iphone" aria-controls="panel-iphone">📱 iphone</button>
+    </div>
+
+    <div class="tab-panel" id="panel-computer" role="tabpanel" data-panel="computer">
+      <ol class="steps">
+        <li>Hit <b>copy link</b> up top.</li>
+        <li>In Chrome, click <b>⋮</b> (top right) → <b>Settings</b>.</li>
+        <li>Click <b>On startup</b> → <b>Open a specific page or set of pages</b> → <b>Add a new page</b> → paste → <b>Add</b>.</li>
+        <li>Then click <b>Appearance</b> → turn on <b>Show home button</b> → click the box under it and paste the link there too. Now the 🏠 button brings you back here.</li>
+      </ol>
+    </div>
+
+    <div class="tab-panel" id="panel-android" role="tabpanel" data-panel="android" hidden>
+      <ol class="steps">
+        <li>Hit <b>copy link</b> up top.</li>
+        <li>In Chrome, tap <b>⋮</b> (top right) → <b>Settings</b> → <b>Homepage</b>.</li>
+        <li>Turn it on, tap <b>Enter custom web address</b>, and paste the link.</li>
+        <li>Want an app icon too? Tap <b>⋮</b> → <b>Add to Home screen</b> → <b>Install</b>.</li>
+      </ol>
+    </div>
+
+    <div class="tab-panel" id="panel-iphone" role="tabpanel" data-panel="iphone" hidden>
+      <p class="steps-note">iPhone Chrome doesn't have a home page setting, so turn it into an app instead:</p>
+      <ol class="steps">
+        <li>Tap <b>open home link</b> below.</li>
+        <li>Tap the share button (<b>□↑</b>). In Chrome it's in the address bar, in Safari it's at the bottom.</li>
+        <li>Tap <b>Add to Home Screen</b> → <b>Add</b>.</li>
+        <li>Open it from the new icon on your home screen ✿</li>
+      </ol>
+      <a class="btn btn-block" id="home-link" href="?home=1">open home link</a>
+    </div>
+
+    <div class="modal-actions">
+      <button class="ghost" type="button" data-close>maybe later</button>
+      <button class="link-btn" type="button" id="home-never">don't ask again</button>
+    </div>
+  </dialog>
+
+  <!-- add / remove shortcut bubbles (js/home.js) -->
+  <dialog class="modal" id="shortcut-dialog" aria-labelledby="shortcut-title">
+    <button class="modal-x" type="button" data-close aria-label="close">×</button>
+    <h2 id="shortcut-title">add a shortcut</h2>
+    <form class="shortcut-form" id="shortcut-form" autocomplete="off">
+      <label>name <input id="sc-name" type="text" required maxlength="24" placeholder="youtube"></label>
+      <label>link <input id="sc-url" type="text" required placeholder="youtube.com" inputmode="url"></label>
+      <button class="btn" type="submit">add shortcut</button>
+    </form>
+    <h3 class="modal-sub">your shortcuts</h3>
+    <ul class="sc-list" id="sc-list"></ul>
+  </dialog>
 
   <!-- plain scripts (no modules) so this also works when opened straight from a folder -->
   <script src="data/settings.js"></script>
   <script src="data/schedule.js"></script>
   <script src="data/vibes.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/home.js"></script>
   <script src="js/vibes.js"></script>
 </body>
 </html>
