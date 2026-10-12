@@ -1,0 +1,34 @@
+/* ============================================================================
+   VIBES STYLES — shows + music.
+   OWNED BY: the "vibes" LLM. Read LLM_INSTRUCTIONS.md before editing.
+   Scope every rule under .vibes so nothing leaks into the rest of the hub.
+   Use the shared tokens from css/styles.css (--wrld, --pink, --muted, ...).
+   ============================================================================ */
+
+.vibes .vibes-empty { margin: 0; color: var(--muted); }
+
+.vibes .vibes-sub { margin: 18px 0 10px; font-size: 16px; font-weight: 600; color: var(--wrld-soft); }
+.vibes .vibes-sub:first-child { margin-top: 0; }
+
+.vibes .vibes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+
+.vibes .vibe-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+.vibes .vibe-card:hover { border-color: var(--wrld); }
+.vibes .vibe-card img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 10px; }
+.vibes .vibe-card small { color: var(--muted); }
+.vibes .vibe-card p { margin: 0; font-size: 13px; color: var(--muted); }
+
+.vibes .vibe-embed { width: 100%; height: 352px; border: 0; border-radius: var(--radius-sm); margin-top: 12px; }
+
+.vibes .vibe-songs { list-style: none; margin: 12px 0 0; padding: 0; }
+.vibes .vibe-songs li { padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+.vibes .vibe-songs small { color: var(--muted); }
