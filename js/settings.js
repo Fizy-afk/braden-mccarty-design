@@ -127,7 +127,12 @@
       case "erase-no": $("#set-erase-confirm").hidden = true; break;
       case "erase-yes": eraseAll(); break;
       case "prefs-reset": P.reset(); sync(); window.wrldToast("Settings back to how they started"); break;
-      case "lock": window.WRLD_GATE.lock(); break;
+      case "sync-now": if (S && S.enabled) S.syncNow(); break;
+      case "lock":
+        // with sync on, locking also clears this device's copy (it comes back on unlock)
+        if (S && S.enabled) S.flush().finally(() => { S.forgetLocal(); window.WRLD_GATE.lock(); });
+        else window.WRLD_GATE.lock();
+        break;
     }
   });
 
@@ -179,7 +184,9 @@
     if (!pendingRestore) return;
     clearOwn();
     Object.keys(pendingRestore).forEach((k) => { try { localStorage.setItem(k, pendingRestore[k]); } catch (e) { /* full */ } });
-    location.reload();
+    // with sync on, send the restored copy to her other devices before reloading
+    if (S && S.enabled) S.flush().finally(() => location.reload());
+    else location.reload();
   }
 
   function clearOwn() {
@@ -189,9 +196,42 @@
   }
 
   function eraseAll() {
-    clearOwn();
+    // with sync on this only drops this device's copy; everything downloads again on reload
+    if (S && S.enabled) S.forgetLocal();
+    else clearOwn();
     location.reload();
   }
+
+  /* ---------- sync status (Settings + the little cloud in the top bar) ---------- */
+  const S = window.WRLD_SYNC;
+  const SYNC_TEXT = {
+    idle: "Connecting…",
+    syncing: "Syncing…",
+    pending: "Saving…",
+    ok: "Synced",
+    offline: "Offline · saved on this device",
+    auth: "Sync key stopped working",
+    error: "Couldn't sync right now"
+  };
+  function showSync(st) {
+    const on = st.state !== "off";
+    $("#set-sync-group").hidden = !on;
+    const pill = $("#sync-pill");
+    pill.hidden = !on;
+    if (!on) return;
+    const when = st.last ? " · " + W.fmtClock(new Date(st.last).getHours() * 60 + new Date(st.last).getMinutes()) : "";
+    const text = SYNC_TEXT[st.state] || "Sync";
+    $("#set-sync-state").innerHTML = '<i class="sync-dot ' + st.state + '"></i>' + text + (st.state === "ok" ? when : "");
+    pill.className = "sync-pill " + st.state;
+    pill.title = text + (st.state === "ok" ? when : "");
+    pill.setAttribute("aria-label", "Sync: " + pill.title);
+    pill.querySelector(".sync-label").textContent = st.state === "ok" ? "Synced" : text.split(" · ")[0];
+    const erase = drawer.querySelector('[data-set="erase"]');
+    if (erase) erase.textContent = "Clear this device's copy";
+    const eraseMsg = $("#set-erase-confirm p");
+    if (eraseMsg) eraseMsg.textContent = "This clears what's stored on this device only. Your synced notes, to-dos and settings download again right after.";
+  }
+  if (S) S.onStatus(showSync);
 
   window.WRLD_SETTINGS_PANEL = { open, close, sync };
 })();

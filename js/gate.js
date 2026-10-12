@@ -11,7 +11,7 @@
 (function () {
   "use strict";
 
-  const VERSION = "6";
+  const VERSION = "7";
   const KEY_STORE = "wrld.deviceKey";
   const BOOT = [
     "data/vibes.js",
@@ -52,7 +52,7 @@
     const box = window.WRLD_PRIVATE;
     const base = await subtle.importKey("raw", new TextEncoder().encode(normalize(password)), "PBKDF2", false, ["deriveKey"]);
     return subtle.deriveKey({ name: "PBKDF2", salt: fromB64(box.salt), iterations: box.iter, hash: "SHA-256" },
-      base, { name: "AES-GCM", length: 256 }, true, ["decrypt"]);
+      base, { name: "AES-GCM", length: 256 }, true, ["encrypt", "decrypt"]);
   }
 
   function loadScript(src) {
@@ -65,9 +65,16 @@
     });
   }
 
-  async function boot(data) {
+  async function boot(data, key) {
     window.WRLD_SCHEDULE = data.schedule;
     window.WRLD_SETTINGS = data.settings;
+    // sync (if set up) runs first so the page draws her latest stuff from her other devices
+    window.WRLD_KEY = key;
+    window.WRLD_SYNC_CONFIG = data.sync || null;
+    try {
+      await loadScript("js/sync.js");
+      if (window.WRLD_SYNC) await window.WRLD_SYNC.firstPull;
+    } catch (e) { /* offline or not set up: carry on with what's on this device */ }
     $("#app").hidden = false;
     root.classList.remove("booting", "locked");
     root.classList.add("unlocked");
@@ -107,7 +114,7 @@
       store.set(KEY_STORE, toB64(await subtle.exportKey("raw", key)));
       card.classList.add("opening");
       if (window.WRLD_SKY) window.WRLD_SKY.shower(10);
-      setTimeout(() => { $("#lock").hidden = true; boot(data); }, 650);
+      setTimeout(() => { $("#lock").hidden = true; boot(data, key); }, 650);
     } catch (err) {
       form.classList.remove("busy");
       error.textContent = "That's not quite it. Try again.";
@@ -128,14 +135,14 @@
     }
     const saved = store.get(KEY_STORE);
     if (saved) {
-      let data = null;
+      let data = null, key = null;
       try {
-        const key = await subtle.importKey("raw", fromB64(saved), { name: "AES-GCM" }, false, ["decrypt"]);
+        key = await subtle.importKey("raw", fromB64(saved), { name: "AES-GCM" }, false, ["encrypt", "decrypt"]);
         data = await decryptWith(key);
       } catch (e) {
         store.del(KEY_STORE); // password changed since this device was unlocked
       }
-      if (data) { await boot(data); return; }
+      if (data) { await boot(data, key); return; }
     }
     showLock();
   })();
